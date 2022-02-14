@@ -1,24 +1,35 @@
 package com.sparta.simulation;
-
-import java.util.Random;
-
 public class Centre {
 
-    int trainees;
+    private Integer centreID;
+    private Integer centreCapacity;
 
-    public int returnTrainees()
-    {
-        return trainees;
+    public Centre(Integer centreID, Integer centreCapacity){
+        this.centreID = centreID;
+        this.centreCapacity = centreCapacity;
+
+
     }
-    public void addTrainees(int trainees)
-    {
-        this.trainees += trainees;
+
+    public Integer getCentreID() {
+        return centreID;
     }
 
-    public int generateTrainees()
-    {
-        Random rand = new Random();
+    public void setCentreID(Integer centreID) {
+        this.centreID = centreID;
+    }
 
+    public Integer getCentreCapacity() {
+        return centreCapacity;
+    }
+
+    public void setCentreCapacity(Integer centreCapacity) {
+        this.centreCapacity = centreCapacity;
+    }
+
+    @Override
+    public String toString() {
+        return "Centre ID: " + centreID + " | Capacity: " + centreCapacity;
     }
 
 
