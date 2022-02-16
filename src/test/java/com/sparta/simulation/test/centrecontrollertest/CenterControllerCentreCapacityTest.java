@@ -1,6 +1,6 @@
 package com.sparta.simulation.test.centrecontrollertest;
 
-import com.sparta.simulation.CenterController;
+import com.sparta.simulation.CentreController;
 import com.sparta.simulation.Centre;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +37,7 @@ public class CenterControllerCentreCapacityTest {
         centreCapacity = 40;
         centreOpenTimes = 1;
 
-        CenterController centerController = new CenterController();
+        CentreController centerController = new CentreController();
 
         for (int i = 0; i < centreOpenTimes; i++) {
             centerController.centreCapacity(centreArrayList, 40);
@@ -56,7 +56,7 @@ public class CenterControllerCentreCapacityTest {
         centreCapacity = 40;
         centreOpenTimes = 2;
 
-        CenterController centerController = new CenterController();
+        CentreController centerController = new CentreController();
 
         for (int i = 0; i < centreOpenTimes; i++) {
             centerController.centreCapacity(centreArrayList, 40);
@@ -75,7 +75,7 @@ public class CenterControllerCentreCapacityTest {
         centreCapacity = 40;
         centreOpenTimes = 3;
 
-        CenterController centerController = new CenterController();
+        CentreController centerController = new CentreController();
 
         for (int i = 0; i < centreOpenTimes; i++) {
             centerController.centreCapacity(centreArrayList, 40);
@@ -94,7 +94,7 @@ public class CenterControllerCentreCapacityTest {
         centreCapacity = 40;
         centreOpenTimes = 6;
 
-        CenterController centerController = new CenterController();
+        CentreController centerController = new CentreController();
 
         for (int i = 0; i < centreOpenTimes; i++) {
             centerController.centreCapacity(centreArrayList, 40);
@@ -113,7 +113,7 @@ public class CenterControllerCentreCapacityTest {
         centreCapacity = 40;
         centreOpenTimes = 13;
 
-        CenterController centerController = new CenterController();
+        CentreController centerController = new CentreController();
 
         for (int i = 0; i < centreOpenTimes; i++) {
             centerController.centreCapacity(centreArrayList, 40);
@@ -139,7 +139,7 @@ public class CenterControllerCentreCapacityTest {
         centreArrayList.add(c5);
         centreArrayList.add(c6);
 
-        CenterController centerController = new CenterController();
+        CentreController centerController = new CentreController();
 
         for (int i = 0; i < centreOpenTimes; i++) {
             centerController.centreCapacity(centreArrayList, 40);
@@ -169,7 +169,7 @@ public class CenterControllerCentreCapacityTest {
         centreArrayList.add(c5);
         centreArrayList.add(c6);
 
-        CenterController centerController = new CenterController();
+        CentreController centerController = new CentreController();
 
         for (int i = 0; i < centreOpenTimes; i++) {
             centerController.centreCapacity(centreArrayList, 40);
@@ -190,7 +190,7 @@ public class CenterControllerCentreCapacityTest {
         centreCapacity = 40;
         centreOpenTimes = 1;
 
-        CenterController centerController = new CenterController();
+        CentreController centerController = new CentreController();
         Centre c4 = new Centre(4, 0, 0, 0);
         Centre c5 = new Centre(5, 0, 4, 0);
 

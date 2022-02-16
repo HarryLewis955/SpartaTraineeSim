@@ -1,6 +1,6 @@
 package com.sparta.simulation.test.centrecontrollertest;
 
-import com.sparta.simulation.CenterController;
+import com.sparta.simulation.CentreController;
 import com.sparta.simulation.Centre;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +30,7 @@ public class CenterControllerBootcampCheckTest {
         centreArrayList.add(c1);
         centreArrayList.add(c2);
 
-        CenterController centerController = new CenterController();
+        CentreController centerController = new CentreController();
         outputBootCampCount = centerController.bootcampCheck(centreArrayList,bootCampCount);
 
         Assertions.assertEquals(0,outputBootCampCount);
@@ -50,7 +50,7 @@ public class CenterControllerBootcampCheckTest {
         centreArrayList.add(c2);
         centreArrayList.add(c3);
 
-        CenterController centerController = new CenterController();
+        CentreController centerController = new CentreController();
         outputBootCampCount = centerController.bootcampCheck(centreArrayList,bootCampCount);
 
         Assertions.assertEquals(1,outputBootCampCount);
@@ -72,7 +72,7 @@ public class CenterControllerBootcampCheckTest {
         centreArrayList.add(c3);
         centreArrayList.add(c4);
 
-        CenterController centerController = new CenterController();
+        CentreController centerController = new CentreController();
         outputBootCampCount = centerController.bootcampCheck(centreArrayList,bootCampCount);
 
         Assertions.assertEquals(2,outputBootCampCount);
@@ -97,7 +97,7 @@ public class CenterControllerBootcampCheckTest {
         centreArrayList.add(c5);
 
 
-        CenterController centerController = new CenterController();
+        CentreController centerController = new CentreController();
         outputBootCampCount = centerController.bootcampCheck(centreArrayList,bootCampCount);
 
         Assertions.assertEquals(3,outputBootCampCount);
