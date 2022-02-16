@@ -1,6 +1,8 @@
 package com.sparta.simulation.test.centrecontrollertest;
 
-import com.sparta.simulation.CenterController;
+
+import com.sparta.simulation.Centre;
+import com.sparta.simulation.CentreController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,73 +16,76 @@ public class CenterControllerCentreTypeGenTest {
     boolean isBootCampGenerated;
     boolean isTrainingHubGenerated;
     boolean isTechCentreGenerated;
-    int bootCampGeneratedTimes;
-
+    Random r = new Random();
 
     @BeforeEach
     void setUp() {
         isBootCampGenerated = false;
         isTrainingHubGenerated = false;
         isTechCentreGenerated = false;
-        bootCampGeneratedTimes = 0;
+        bootCampCount = 0;
     }
 
     @Test
-    @DisplayName("Given 0 bootcamp count expected bootcamp could generated")
-    public void given0BootCampCountExpectedBootcampCouldGenerated(){
+    @DisplayName("Given 0 bootcamp count expected maximum 2 bootcamp could generated")
+    public void given0BootCampCountExpectedMaximum2BootcampCouldGenerated() {
 
-        bootCampCount = 0;
-        bootCampGeneratedTimes = 0;
+        CentreController centreController = new CentreController();
+
         int experimentLoopTime = 50;
 
-        for(int i = 0; i <experimentLoopTime; i++) {
-            int outputCentreType = CenterController.centerTypeGen(bootCampCount, new Random());
-            if(outputCentreType == 2){
+        for (int i = 0; i < experimentLoopTime; i++) {
+            int centreType = r.nextInt(1,4);
+            int outputCentreType = CentreController.centerTypeGen(bootCampCount, centreType);
+            if (outputCentreType == 2) {
                 isBootCampGenerated = true;
-                bootCampGeneratedTimes ++;
+                bootCampCount++;
             }
         }
         //System.out.println("Bootcamp generated: " + bootCampGeneratedTimes);
-        Assertions.assertEquals(true,isBootCampGenerated);
-
+        Assertions.assertEquals(true, isBootCampGenerated);
+        Assertions.assertEquals(2, bootCampCount);
     }
 
     @Test
-    @DisplayName("Given 1 bootcamp count expected bootcamp could generated")
-    public void given1BootCampCountExpectedBootcampCouldGenerated(){
+    @DisplayName("Given 1 bootcamp count expected maximum 2 bootcamp could generated")
+    public void given1BootCampCountExpectedMaximum2BootcampCouldGenerated(){
 
         bootCampCount = 1;
-        bootCampGeneratedTimes = 0;
         int experimentLoopTime = 50;
 
         for(int i = 0; i <experimentLoopTime; i++) {
-            int outputCentreType = CenterController.centerTypeGen(bootCampCount, new Random());
+            int centreType = r.nextInt(1,4);
+            int outputCentreType = CentreController.centerTypeGen(bootCampCount, centreType);
             if(outputCentreType == 2){
                 isBootCampGenerated = true;
-                bootCampGeneratedTimes ++;
+                bootCampCount++;
             }
         }
         //System.out.println("Bootcamp generated: " + bootCampGeneratedTimes);
         Assertions.assertEquals(true,isBootCampGenerated);
+        Assertions.assertEquals(2, bootCampCount);
     }
 
+
     @Test
-    @DisplayName("Given 2 bootcamp count expected no bootcamp generated")
+    @DisplayName("Given 2 bootcamp count expect no bootcamp generated")
     public void given2BootCampCountExpectedNoBootcampGenerated(){
 
         bootCampCount = 2;
-        bootCampGeneratedTimes = 0;
         int experimentLoopTime = 50;
 
         for(int i = 0; i <experimentLoopTime; i++) {
-            int outputCentreType = CenterController.centerTypeGen(bootCampCount, new Random());
+            int centreType = r.nextInt(1,4);
+            int outputCentreType = CentreController.centerTypeGen(bootCampCount, centreType);
             if(outputCentreType == 2){
                 isBootCampGenerated = true;
-                bootCampGeneratedTimes ++;
+                bootCampCount++;
             }
         }
         //System.out.println("Bootcamp generated: " + bootCampGeneratedTimes);
         Assertions.assertEquals(false,isBootCampGenerated);
+        Assertions.assertEquals(2, bootCampCount);
     }
 
     @Test
@@ -88,19 +93,19 @@ public class CenterControllerCentreTypeGenTest {
     public void given3BootCampCountExpectedNoBootcampGenerated(){
 
         bootCampCount = 3;
-        bootCampGeneratedTimes = 0;
         int experimentLoopTime = 50;
 
         for(int i = 0; i <experimentLoopTime; i++) {
-            int outputCentreType = CenterController.centerTypeGen(bootCampCount, new Random());
+            int centreType = r.nextInt(1,4);
+            int outputCentreType = CentreController.centerTypeGen(bootCampCount, centreType);
             if(outputCentreType == 2){
                 isBootCampGenerated = true;
-                bootCampGeneratedTimes ++;
             }
         }
         //System.out.println("Bootcamp generated: " + bootCampGeneratedTimes);
         Assertions.assertEquals(false,isBootCampGenerated);
     }
+
 
     @Test
     @DisplayName("Check three centre can be generated")
@@ -109,11 +114,13 @@ public class CenterControllerCentreTypeGenTest {
         int experimentLoopTime = 50;
 
         for(int i = 0; i <experimentLoopTime; i++) {
-            int outputCentreType = CenterController.centerTypeGen(bootCampCount, new Random());
+            int centreType = r.nextInt(1,4);
+            int outputCentreType = CentreController.centerTypeGen(bootCampCount, centreType);
             if(outputCentreType == 1){
                 isTrainingHubGenerated = true;
             } else if(outputCentreType == 2){
                 isBootCampGenerated = true;
+                bootCampCount++;
             }else if(outputCentreType == 3){
                 isTechCentreGenerated = true;
             }
@@ -122,6 +129,7 @@ public class CenterControllerCentreTypeGenTest {
         Assertions.assertEquals(true,isBootCampGenerated);
         Assertions.assertEquals(true,isTrainingHubGenerated);
         Assertions.assertEquals(true,isTechCentreGenerated);
+        Assertions.assertEquals(2, bootCampCount);
     }
 
     @Test
@@ -132,17 +140,20 @@ public class CenterControllerCentreTypeGenTest {
         int experimentLoopTime = 50;
 
         for(int i = 0; i <experimentLoopTime; i++) {
-            int outputCentreType = CenterController.centerTypeGen(bootCampCount, new Random());
+            int centreType = r.nextInt(1,4);
+            int outputCentreType = CentreController.centerTypeGen(bootCampCount, centreType);
             if(outputCentreType == 1){
                 isTrainingHubGenerated = true;
             } else if(outputCentreType == 2){
                 isBootCampGenerated = true;
+                bootCampCount++;
             }else if(outputCentreType == 3){
                 isTechCentreGenerated = true;
             }else
                 isCentreTypeOutOfRange = true;
         }
         Assertions.assertEquals(false,isCentreTypeOutOfRange);
+        Assertions.assertEquals(2, bootCampCount);
     }
 
 }
