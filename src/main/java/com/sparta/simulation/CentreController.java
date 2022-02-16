@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class CenterController {
+public class CentreController {
 
     // Increase capacities up to their max
 
@@ -111,7 +111,7 @@ public class CenterController {
                             // move to method
                             addCentreOneTwo(centreList,waitingList, l);
                         } else if (freeCapacity > 0 && waitingList.size() > 0 && centreList.get(l).getCentreType() == 3){
-                            CenterController centre3Controller = new CenterController();
+                            CentreController centre3Controller = new CentreController();
                             centre3Controller.addToCentre3(waitingList, centreList, l);
                         }
                     }

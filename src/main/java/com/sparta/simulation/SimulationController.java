@@ -1,7 +1,5 @@
 package com.sparta.simulation;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 public class SimulationController {
@@ -28,30 +26,30 @@ public class SimulationController {
             int centreType = r.nextInt(1,4);
 //            int centreType = 2;
             // generate number of new trainees for this month
-            int newTrainees = r.nextInt(50,100);
+            int newTrainees = r.nextInt(50,101);
 //            int newTrainees = 10;
             TraineeController.createTrainee(newTrainees, javaCount, csharpCount, dataCount, devopsCount, businessCount, waitingList);
              // add trainees to waiting list
 
-            int centreCapacity = r.nextInt(0,50);
+            int centreCapacity = r.nextInt(0,51);
 //            int centreCapacity = 5;
             // if you want to add your own capacity for each month comment out the line above and uncomment this below
-            CenterController centreControl = new CenterController();
+            CentreController centreControl = new CentreController();
             centreControl.centreCapacity(centreList, centreCapacity);
 
 
 
             if (i%2 == 0){
                 bootCampCount = centreControl.bootcampCheck(centreList, bootCampCount);
-                centreType = CenterController.centerTypeGen(bootCampCount, centreType);
-                CenterController create = new CenterController();
+                centreType = CentreController.centerTypeGen(bootCampCount, centreType);
+                CentreController create = new CentreController();
                 idCount = create.createCentre(centreList, centreCapacity, centreType, idCount, numberOfTrainingHub, techCentreStream);
             }
             int waitingListSize = waitingList.size();
             // If there are trainees in the waiting list
             centreList = centreControl.addToCentre(waitingList, centreList, waitingListSize);
             // move to center controller
-            CenterController.checkAttend(centreList, centresToClose);
+            CentreController.checkAttend(centreList, centresToClose);
 
             int centreListSize = centreList.size();
             ArrayList<Integer> tempTrainee = new ArrayList<>();
