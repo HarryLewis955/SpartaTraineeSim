@@ -206,14 +206,11 @@ public class SimulationController {
 //                }
 //
 //            }
-
-
-
-
-
-
-
         }
+
+
+
+
         List<Integer> temporaryList = tempList.stream().distinct().toList();
         System.out.println(temporaryList);
 
