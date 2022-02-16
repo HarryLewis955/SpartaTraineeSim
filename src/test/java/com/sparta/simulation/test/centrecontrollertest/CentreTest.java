@@ -1,4 +1,4 @@
-package com.sparta.simulationtest;
+package com.sparta.simulation.test.centrecontrollertest;
 
 import com.sparta.simulation.Trainee;
 import org.junit.jupiter.api.DisplayName;
