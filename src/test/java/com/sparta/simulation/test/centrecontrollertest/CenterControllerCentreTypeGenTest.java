@@ -12,12 +12,17 @@ public class CenterControllerCentreTypeGenTest {
 
     int bootCampCount;
     boolean isBootCampGenerated;
+    boolean isTrainingHubGenerated;
+    boolean isTechCentreGenerated;
     int bootCampGeneratedTimes;
+
 
     @BeforeEach
     void setUp() {
-        boolean isBootCampGenerated = false;
-        int bootCampGeneratedTimes = 0;
+        isBootCampGenerated = false;
+        isTrainingHubGenerated = false;
+        isTechCentreGenerated = false;
+        bootCampGeneratedTimes = 0;
     }
 
     @Test
@@ -35,7 +40,7 @@ public class CenterControllerCentreTypeGenTest {
                 bootCampGeneratedTimes ++;
             }
         }
-        System.out.println("Bootcamp generated: " + bootCampGeneratedTimes);
+        //System.out.println("Bootcamp generated: " + bootCampGeneratedTimes);
         Assertions.assertEquals(true,isBootCampGenerated);
 
     }
@@ -55,7 +60,7 @@ public class CenterControllerCentreTypeGenTest {
                 bootCampGeneratedTimes ++;
             }
         }
-        System.out.println("Bootcamp generated: " + bootCampGeneratedTimes);
+        //System.out.println("Bootcamp generated: " + bootCampGeneratedTimes);
         Assertions.assertEquals(true,isBootCampGenerated);
     }
 
@@ -74,7 +79,7 @@ public class CenterControllerCentreTypeGenTest {
                 bootCampGeneratedTimes ++;
             }
         }
-        System.out.println("Bootcamp generated: " + bootCampGeneratedTimes);
+        //System.out.println("Bootcamp generated: " + bootCampGeneratedTimes);
         Assertions.assertEquals(false,isBootCampGenerated);
     }
 
@@ -93,8 +98,51 @@ public class CenterControllerCentreTypeGenTest {
                 bootCampGeneratedTimes ++;
             }
         }
-        System.out.println("Bootcamp generated: " + bootCampGeneratedTimes);
+        //System.out.println("Bootcamp generated: " + bootCampGeneratedTimes);
         Assertions.assertEquals(false,isBootCampGenerated);
+    }
+
+    @Test
+    @DisplayName("Check three centre can be generated")
+    public void checkThreeCentreCanBeGenerated(){
+
+        int experimentLoopTime = 50;
+
+        for(int i = 0; i <experimentLoopTime; i++) {
+            int outputCentreType = CenterController.centerTypeGen(bootCampCount, new Random());
+            if(outputCentreType == 1){
+                isTrainingHubGenerated = true;
+            } else if(outputCentreType == 2){
+                isBootCampGenerated = true;
+            }else if(outputCentreType == 3){
+                isTechCentreGenerated = true;
+            }
+        }
+        //System.out.println("Bootcamp generated: " + bootCampGeneratedTimes);
+        Assertions.assertEquals(true,isBootCampGenerated);
+        Assertions.assertEquals(true,isTrainingHubGenerated);
+        Assertions.assertEquals(true,isTechCentreGenerated);
+    }
+
+    @Test
+    @DisplayName("Check if centreType out of range")
+    public void checkIfCentreTypeOutOfRange(){
+
+        boolean isCentreTypeOutOfRange = false;
+        int experimentLoopTime = 50;
+
+        for(int i = 0; i <experimentLoopTime; i++) {
+            int outputCentreType = CenterController.centerTypeGen(bootCampCount, new Random());
+            if(outputCentreType == 1){
+                isTrainingHubGenerated = true;
+            } else if(outputCentreType == 2){
+                isBootCampGenerated = true;
+            }else if(outputCentreType == 3){
+                isTechCentreGenerated = true;
+            }else
+                isCentreTypeOutOfRange = true;
+        }
+        Assertions.assertEquals(false,isCentreTypeOutOfRange);
     }
 
 }
