@@ -4,7 +4,7 @@ import java.util.stream.Collectors;
 
 public class SimulationController {
     public static void main(String[] args) {
-        int months = 100;// user to define this
+        int months = 10;// user to define this
 
         // Initializing the lists to be used
         ArrayList<Integer> waitingList = new ArrayList<>();
@@ -33,10 +33,10 @@ public class SimulationController {
             int techCentreStream = r.nextInt(1,6); // only for centre type 3
             int centreType = r.nextInt(1,4);
 //            int centreType = 1;
-            int newTrainees = r.nextInt(50,101);
-//            int newTrainees = 10;
-            int centreCapacity = r.nextInt(0,51);
-//            int centreCapacity = 5;
+//            int newTrainees = r.nextInt(50,101);
+            int newTrainees = 10;
+//            int centreCapacity = r.nextInt(0,51);
+            int centreCapacity = 50;
 
             // From the new trainees this month, assign each a stream and add to the waiting list
             TraineeController.createTrainee(newTrainees, javaCount, csharpCount, dataCount, devopsCount, businessCount, waitingList);
