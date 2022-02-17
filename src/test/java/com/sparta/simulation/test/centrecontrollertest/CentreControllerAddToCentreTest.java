@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-public class CenterControllerAddToCentreTest {
+public class CentreControllerAddToCentreTest {
 
     ArrayList<Integer> waitingList;
     ArrayList<Centre> centreList;

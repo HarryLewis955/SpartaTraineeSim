@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-public class CenterControllerBootcampCheckTest {
+public class CentreControllerBootcampCheckTest {
 
     ArrayList<Centre> centreArrayList;
     final int bootCampCount = 0;

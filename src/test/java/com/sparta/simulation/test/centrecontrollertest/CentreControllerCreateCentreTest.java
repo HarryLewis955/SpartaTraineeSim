@@ -2,8 +2,6 @@ package com.sparta.simulation.test.centrecontrollertest;
 
 import com.sparta.simulation.CentreController;
 import com.sparta.simulation.Centre;
-import io.cucumber.java.bs.A;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class CenterControllerCreateCentreTest {
+public class CentreControllerCreateCentreTest {
 
     ArrayList<Centre> centreArrayList;
     int idCount;

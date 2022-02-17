@@ -1,7 +1,6 @@
 package com.sparta.simulation.test.centrecontrollertest;
 
 
-import com.sparta.simulation.Centre;
 import com.sparta.simulation.CentreController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-public class CenterControllerCentreTypeGenTest {
+public class CentreControllerCentreTypeGenTest {
 
     int bootCampCount;
     boolean isBootCampGenerated;
