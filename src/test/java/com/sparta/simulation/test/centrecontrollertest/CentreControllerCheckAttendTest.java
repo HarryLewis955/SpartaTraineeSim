@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class CentreControllerCheckAttendTest {
 
     ArrayList<Centre> centreArrayList;
-    ArrayList<Centre> removedCentreArrayList;
+    ArrayList<Integer> removedCentreArrayList;
     int experimentMonth;
 
     @BeforeEach
