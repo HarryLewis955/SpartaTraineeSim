@@ -80,28 +80,16 @@ public class CentreControllerAddToCentreTest {
     }
 
     @Test
-    @DisplayName("add 7 trainees to 2 boot camp with 5 capacity expect all added into Boot Camp and waiting list should be empty")
-    public void add7TraineesTo2BootCampWith5CapacityExpect5AddedIntoHubAndWaitingListEmpty(){
+    @DisplayName("add 7 trainees to 2 boot camp with total capacity expect all added into Boot Camp and waiting list should be empty")
+    public void add7TraineesTo2BootCampWithTotal7CapacityExpect5AddedIntoHubAndWaitingListEmpty(){
         newTrainees = 7;
         waitingList = TraineeController.createTrainee(newTrainees, javaCount,csharpCount,dataCount,devopsCount,businessCount,waitingList);
 
-        idCount = centreController.createCentre(centreList, 5, 2,idCount,0,0);
+        idCount = centreController.createCentre(centreList, 2, 2,idCount,0,0);
         idCount = centreController.createCentre(centreList, 5, 2,idCount,0,0);
         centreController.addToCentre(waitingList, centreList, waitingList.size());
 
-        Assertions.assertEquals(5,                                                          //Check 5 students added into the camp1
-                centreList.get(0).getJavaCount()
-                        + centreList.get(0).getCsharpCount()
-                        + centreList.get(0).getDataCount()
-                        + centreList.get(0).getDevopsCount()
-                        + centreList.get(0).getBusinessCount());
-
-        Assertions.assertEquals(2,                                                          //Check 2 students added into the camp2
-                centreList.get(1).getJavaCount()
-                        + centreList.get(1).getCsharpCount()
-                        + centreList.get(1).getDataCount()
-                        + centreList.get(1).getDevopsCount()
-                        + centreList.get(1).getBusinessCount());
+        Assertions.assertEquals(newTrainees, (centreList.get(0).getTotal()+ centreList.get(1).getTotal()));
 
         Assertions.assertEquals(0, waitingList.size());
 
@@ -179,6 +167,7 @@ public class CentreControllerAddToCentreTest {
 
     }
 
+
     @Test
     @DisplayName("add 10 trainees 5 in Csharp stream into csharp tech center expected non-sharp student will be on waiting list")
     public void add10Students(){
@@ -208,7 +197,7 @@ public class CentreControllerAddToCentreTest {
 
         Assertions.assertEquals(5, centreList.get(0).getTotal());                           //should be 5 stream 2 student added into centre
         Assertions.assertEquals(false, isAnyStreamTwoStudentNotAdded);
+        //System.out.println("Waiting List: "+ waitingList.toString());
     }
-
 
 }
