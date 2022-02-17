@@ -1,17 +1,23 @@
 package com.sparta.simulation;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class SimulationController {
     public static void main(String[] args) {
+        int months = 10;// user to define this
 
-        int months = 100;// user to define this
+        // Initializing the lists to be used
         ArrayList<Integer> waitingList = new ArrayList<>();
-
+        List<Integer> listWithoutDuplicates = new ArrayList<>();
         ArrayList<Centre> centreList = new ArrayList<>();
         ArrayList<Centre> closedCentres = new ArrayList<>();
-        ArrayList<Centre> centresToClose = new ArrayList<>();
+        ArrayList<Integer> centresToClose = new ArrayList<>();
+        List<Integer> temporaryList;
+
+        // Random class for random numbers
         Random r = new Random();
+
+        // Initializing counting variables
         int javaCount = 0;
         int csharpCount = 0;
         int dataCount = 0;
@@ -19,120 +25,66 @@ public class SimulationController {
         int businessCount = 0;
         int idCount = 0;
         int bootCampCount = 0;
-        // loop through months, each month this is executed
+
+        // Each iteration of the loop represents 1 month of time
         for (int i = 0; i < months; i++) {
+            // Creating random numbers for this month
             int numberOfTrainingHub = r.nextInt(1, 4); //only for centre type 1
             int techCentreStream = r.nextInt(1,6); // only for centre type 3
             int centreType = r.nextInt(1,4);
-//            int centreType = 2;
-            // generate number of new trainees for this month
-            int newTrainees = r.nextInt(50,101);
-//            int newTrainees = 10;
-            TraineeController.createTrainee(newTrainees, javaCount, csharpCount, dataCount, devopsCount, businessCount, waitingList);
-             // add trainees to waiting list
+//            int centreType = 1;
+//            int newTrainees = r.nextInt(50,101);
+            int newTrainees = 10;
+//            int centreCapacity = r.nextInt(0,51);
+            int centreCapacity = 50;
 
-            int centreCapacity = r.nextInt(0,51);
-//            int centreCapacity = 5;
-            // if you want to add your own capacity for each month comment out the line above and uncomment this below
+            // From the new trainees this month, assign each a stream and add to the waiting list
+            TraineeController.createTrainee(newTrainees, javaCount, csharpCount, dataCount, devopsCount, businessCount, waitingList);
+
+            // Increase number of trainees each centre takes for this month (random for each centre between 0-50)
             CentreController centreControl = new CentreController();
             centreControl.centreCapacity(centreList, centreCapacity);
 
-
-
+            // Every two months create a new centre
             if (i%2 == 0){
+                // Check how many bootcamps there are in the centre list
                 bootCampCount = centreControl.bootcampCheck(centreList, bootCampCount);
+
+                // Generate the type of centre being created (if 2 bootcamps then random between tech centre and training hub)
                 centreType = CentreController.centerTypeGen(bootCampCount, centreType);
+
+                // Create the centre for this month (or multiple if training hub is selected)
                 CentreController create = new CentreController();
                 idCount = create.createCentre(centreList, centreCapacity, centreType, idCount, numberOfTrainingHub, techCentreStream);
             }
+
+            // Create unchanging size of waiting list to reference
             int waitingListSize = waitingList.size();
-            // If there are trainees in the waiting list
+
+            // If there are trainees in the waiting list, add to the next free centre
+            // Always take from index 0 of waiting list to ensure first into the list are first out
             centreList = centreControl.addToCentre(waitingList, centreList, waitingListSize);
-            // move to center controller
+
+            // Check if attendance is less than 25, if 3 months of low attendance then add to the "to be closed list"
+            // "To be closed list" contains the position of that centre in centreList
             CentreController.checkAttend(centreList, centresToClose);
 
-            int centreListSize = centreList.size();
-            ArrayList<Integer> tempTrainee = new ArrayList<>();
-//            for (int j = 0; j < centresToClose.size(); j++) {
-//
-//                centreList.remove(centresToClose.get(j));
-//
-//
-//
-//
-//
-//                for (int k = 0; k < centreListSize-1; k++) {
-//                    if (centresToClose.size() > 0) {
-//                        if (centreList.get(k).getCentreID() == centresToClose.get(j).getCentreID()) {
-//                            closedCentres.add(centreList.get(k));
-//                            centreList.remove(centreList.get(k));
-//                            centresToClose.remove(j);
-//                        }
-//                    }
-//                }
-//
-//
-//
-//
-////                int k = centreList.indexOf(centresToClose[j]);
-//////                if (centresToClose.get(j) == centreList.get(k).getCentreID()){
-////                    for (int l = 0; l < centreList.get(k).getJavaCount(); l++) {
-////                        waitingList.add(1);
-////                        Collections.rotate(waitingList, 1);
-////                    }
-////                    for (int l = 0; l < centreList.get(k).getCsharpCount(); l++) {
-////                        waitingList.add(2);
-////                        Collections.rotate(waitingList, 1);
-////                    }
-////                    for (int l = 0; l < centreList.get(k).getDataCount(); l++) {
-////                        waitingList.add(3);
-////                        Collections.rotate(waitingList, 1);
-////                    }
-////                    for (int l = 0; l < centreList.get(k).getDevopsCount(); l++) {
-////                        waitingList.add(4);
-////                        Collections.rotate(waitingList, 1);
-////                    }
-////                    for (int l = 0; l < centreList.get(k).getBusinessCount(); l++) {
-////                        waitingList.add(5);
-////                        Collections.rotate(waitingList, 1);
-////                    }
-////                    centreList.remove(k);
-//////                }
-////
-//
-//
-//
-//
-//
-////                tempTrainee.add(centreList.get(centresToClose.get(i)).getJavaCount());
-////                tempTrainee.add(centreList.get(centresToClose.get(i)).getCsharpCount());
-////                tempTrainee.add(centreList.get(centresToClose.get(i)).getDataCount());
-////                tempTrainee.add(centreList.get(centresToClose.get(i)).getDevopsCount());
-////                tempTrainee.add(centreList.get(centresToClose.get(i)).getBusinessCount());
-////
-//            }
+            // Remove duplicates from the "to be closed list"
+            temporaryList = centresToClose.stream().distinct().toList();
 
+            // Sort into descending order to not affect indexing when centres are removed from centreList
+            new LinkedList<>(temporaryList).descendingIterator().forEachRemaining(listWithoutDuplicates :: add);
 
-            // close centers
-            // if no place for next lad on waiting list, move to next person
-            // fill centres until their current capacity before filling the next
-            // refactor
+            // Add closed centre to separate list and remove from centreList
+            // Count number of each type of trainee from closed centre and add to start of waiting list, to ensure they are selected first again
+            centreControl.closeCentre(listWithoutDuplicates, centreList, closedCentres, waitingList);
 
-
-
+            // Clear lists ready for next loop
+            listWithoutDuplicates.clear();
+            centresToClose.clear();
         }
 
-
-
-
-
         // PRINTING OUT STUFF
-//        List<Integer> temporaryList = centresToClose.stream().distinct().toList();
-//        System.out.println(temporaryList);
-
-        System.out.println(centresToClose);
-        System.out.println(closedCentres);
-
         for (int i = 0; i < centreList.size(); i++) {
             System.out.println(centreList.get(i).getCentreID() +
                     " Java: " + centreList.get(i).getJavaCount() +
@@ -143,14 +95,15 @@ public class SimulationController {
                     " Total: " + centreList.get(i).getTotal());
         }
 
-
-
         System.out.println("Waiting list:");
         System.out.println(waitingList);
         System.out.println("Waiting list size: " + waitingList.size());
         System.out.println("\nList of open centres:");
         System.out.println(centreList);
         System.out.println("There are currently: " + centreList.size() +  " centres open");
+        System.out.println("\nList of closed centres:");
+        System.out.println(closedCentres);
+        System.out.println("There are currently: " + closedCentres.size() +  " centres open");
 //        System.out.println("\nList of trainees in each centre:");
 //        System.out.println(traineesInCentres);
 //        System.out.println("\nThere are this many centres with trainees in: " + traineesInCentres.stream().filter(x -> !x.isEmpty()).count());

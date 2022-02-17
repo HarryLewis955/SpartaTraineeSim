@@ -2,12 +2,12 @@ package com.sparta.simulation;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class CentreController {
 
     // Increase capacities up to their max
-
     public void centreCapacity(ArrayList<Centre> centreList, int centreCapacity){
         for (int j = 0; j < centreList.size(); j++) {
             centreList.get(j).setCentreCapacity(centreList.get(j).getCentreCapacity() + centreCapacity);
@@ -39,9 +39,6 @@ public class CentreController {
         return bootCampCount;
     }
 
-
-
-
     // generate centre type randomly,
     public static int centerTypeGen(int bootCampCount, int centreType) {
         Random r = new Random();
@@ -56,13 +53,9 @@ public class CentreController {
         return centreType;
     }
 
-
     // create centre
-
-//    public ArrayList<Centre> createCentre(ArrayList<Centre> centreList, int centreCapacity, int centreType, int idCount){
     public int createCentre(ArrayList<Centre> centreList, int centreCapacity, int centreType, int idCount, int numberOfTrainingHub, int techCentreStream){
         Random r = new Random();
-
         if(centreType == 1) {
 //            int numberOfHub = r.nextInt(1, 4);
             for (int j = 0; j < numberOfTrainingHub; j++) {
@@ -82,15 +75,13 @@ public class CentreController {
         return idCount;
     }
 
-
-
     // check for low attendance
-    public static void checkAttend(ArrayList<Centre> centreList, ArrayList<Centre> tempList){
+    public static void checkAttend(ArrayList<Centre> centreList, ArrayList<Integer> tempList){
         for (int j = 0; j < centreList.size(); j++) {
             if(centreList.get(j).getTotal() < 25){
                 centreList.get(j).setLowAttendanceMonths(centreList.get(j).getLowAttendanceMonths() + 1);
                 if(centreList.get(j).getLowAttendanceMonths() >= 3){
-                    tempList.add(centreList.get(j));
+                    tempList.add(centreList.indexOf(centreList.get(j)));
                 }
             }
         }
@@ -104,7 +95,7 @@ public class CentreController {
             for (int j = 0; j < waitingListSize; j++) {
                 for(int l = 0; l < centreList.size(); l++){
                     // Check capacity free in each traineesInCentres
-                  //  for (int k = 0; k < centreList.size(); k++) {
+//                    for (int k = 0; k < centreList.size(); k++) {
                         int freeCapacity = centreList.get(l).getCentreCapacity() - centreList.get(l).getTotal();
                         // If there is free capacity in the centre, add the trainee to the centre
                         if(freeCapacity > 0  && waitingList.size() > 0 && centreList.get(l).getCentreType() != 3 && freeCapacity <= centreList.get(l).getCentreCapacity()){
@@ -115,8 +106,8 @@ public class CentreController {
                             CentreController centre3Controller = new CentreController();
                             centre3Controller.addToCentre3(waitingList, centreList, l);
                             break;
-                 //       }
-                    }
+                        }
+//                    }
                 }
             }
         }
@@ -144,9 +135,6 @@ public class CentreController {
         waitingList.remove(0);
     }
 
-
-
-
 // add to centre 3
     public void addToCentre3(ArrayList<Integer> waitingList, ArrayList<Centre> centreList, int l){
 
@@ -169,9 +157,35 @@ public class CentreController {
         } else {
             Collections.rotate(waitingList.subList(0 ,waitingList.indexOf(centreList.get(l).getStream()) + 1), 1);
         }
-
     }
 
+    public void closeCentre(List<Integer> listWithoutDuplicates, ArrayList<Centre> centreList, ArrayList<Centre> closedCentres, ArrayList<Integer> waitingList){
+        for (int j = 0; j < listWithoutDuplicates.size(); j++) {
+            int k = listWithoutDuplicates.get(j);
+            closedCentres.add(centreList.get(k));
+            for (int l = 0; l < centreList.get(k).getJavaCount(); l++) {
+                waitingList.add(1);
+                Collections.rotate(waitingList, 1);
+            }
+            for (int l = 0; l < centreList.get(k).getCsharpCount(); l++) {
+                waitingList.add(1);
+                Collections.rotate(waitingList, 1);
+            }
+            for (int l = 0; l < centreList.get(k).getDataCount(); l++) {
+                waitingList.add(1);
+                Collections.rotate(waitingList, 1);
+            }
+            for (int l = 0; l < centreList.get(k).getDevopsCount(); l++) {
+                waitingList.add(1);
+                Collections.rotate(waitingList, 1);
+            }
+            for (int l = 0; l < centreList.get(k).getBusinessCount(); l++) {
+                waitingList.add(1);
+                Collections.rotate(waitingList, 1);
+            }
+            centreList.remove(k);
+        }
+    }
 
 
 
