@@ -3,9 +3,14 @@ package com.sparta.simulation.stepdefs;
 import com.sparta.simulation.Centre;
 import com.sparta.simulation.CentreController;
 import com.sparta.simulation.TraineeController;
+import io.cucumber.java.After;
+import io.cucumber.java.AfterAll;
+import io.cucumber.java.Before;
+import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.java.sl.Ce;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,29 +35,29 @@ public class StepDefinitions {
 
         return random;
     }
-
+    CentreController centreController;
     ArrayList<Integer> excludeBootcamp = new ArrayList<>(List.of(2));
 
     ArrayList<Integer> excludeTechCentre = new ArrayList<>(List.of(3));
 
+    ArrayList<Integer> excludeTrainingHub = new ArrayList<>(List.of(1));
+
     Centre centre;
 
-    CentreController c = new CentreController();
-
-    ArrayList<Centre> centreList = new ArrayList<>();
+    ArrayList<Centre> centreList;
     int centreCapacity;
     ArrayList<Integer> waitingList = new ArrayList<>();
 
-    @BeforeEach
+    @Before
     public void setUp() {
+        centreController = new CentreController();
         centreList = new ArrayList<>();
-        c = new CentreController();
     }
 
-    @AfterEach
+    @After
     public void close() {
+        centreController = null;
         centre = null;
-        c = null;
         centreList = null;
         waitingList = null;
     }
@@ -74,48 +79,52 @@ public class StepDefinitions {
                 i++;
             }
         }
+
+        System.out.println("waitingList.size() = " + waitingList.size());
     }
 
     @When("no bootcamp opened")
     public void noBootcampOpened() {
-        Random r = new Random();
-        Integer centreType = generateRandom(1, 3, excludeBootcamp);
-        centreCapacity = r.nextInt(0, 51);
-        centre = new Centre(1, centreCapacity, centreType, 0);
-        centreList = new ArrayList<>();
-        c = new CentreController();
+//        Random r = new Random();
+//        Integer centreType = generateRandom(1, 3, excludeBootcamp);
+//        centreCapacity = r.nextInt(0, 51);
+//        centre = new Centre(1, centreCapacity, centreType, 0);
         //    c.centreCapacity(centreList,centreCapacity);
         //   centreList.get(0).setCentreType();
     }
 
     @When("no tech centre opened")
     public void noTechCentreOpened() {
-        if (centre.getCentreType() == 3) {
-            centre.setCentreType(1);
+        centre = new Centre(1,0,generateRandom(1,3,excludeTechCentre)
+            ,0);
+
+        if(centre.getCentreType() == 3){
+            centre.setCentreType(2);
         }
     }
 
     @Then("maximum {int} training hubs should be opened")
     public void maximumTrainingHubsShouldBeOpened(int maxTrainingHubsOpened) {
-        int numberOfTrainingHubsOpened = c.createCentre(centreList, centreCapacity, centre.getCentreType(), 0, maxTrainingHubsOpened, 0);
+        int numberOfTrainingHubsOpened = centreController.createCentre(centreList, centreCapacity, centre.getCentreType(), 0, maxTrainingHubsOpened, 0);
         Assertions.assertTrue(maxTrainingHubsOpened >= numberOfTrainingHubsOpened);
     }
 
     @Then("minimum {int} training hub should be opened")
     public void minimumTrainingHubShouldBeOpened(int minTrainingHubsOpened) {
-        int numberOfTrainingHubsOpened = c.createCentre(centreList, centreCapacity, centre.getCentreType(), 0, minTrainingHubsOpened, 0);
+        int numberOfTrainingHubsOpened = centreController.createCentre(centreList, centreCapacity, centre.getCentreType(), 0, minTrainingHubsOpened, 0);
         Assertions.assertTrue(minTrainingHubsOpened <= numberOfTrainingHubsOpened);
     }
 
     @When("{int} training hub opened")
     public void trainingHubOpened(int arg0) {
-        c.createCentre(centreList, centreCapacity, centre.getCentreType()
+        centreController.createCentre(centreList, centreCapacity, centre.getCentreType()
                 , 0, arg0, 0);
     }
 
     @Then("no training hub opened")
     public void noTrainingHubOpened() {
-
+        centre = new Centre(1,0,generateRandom(1,3,excludeTrainingHub)
+        ,0);
     }
 
     @Then("simulation should be ended")
@@ -135,14 +144,14 @@ public class StepDefinitions {
     }
 
     @Then("{int} bootcamp should be opened")
-    public void bootcampShouldBeOpened() {
-        c.createCentre(centreList, 20, 2, 0, 0, 0);
+    public void bootcampShouldBeOpened(int arg0) {
+        centreController.createCentre(centreList, 20, 2, 0, 0, 0);
     }
 
     @Then("training hub {int} takes new {int} trainees")
     public void trainingHubTakesNewTrainees(int arg0, int arg1) {
         System.out.println("waitingList.size() before = " + waitingList.size());
-        c.addToCentre(waitingList, centreList, waitingList.size());
+        centreController.addToCentre(waitingList, centreList, waitingList.size());
         System.out.println("waitingList.size() = " + waitingList.size());
         //   c.addCentreOneTwo(centreList,waitingList,0);
         System.out.println(centreList.size() + "size");
@@ -157,16 +166,52 @@ public class StepDefinitions {
 
     @When("bootcamp {int} takes {int} new trainees")
     public void bootcampTakesNewTrainees(int arg0, int arg1) {
+        centreController.centreCapacity(centreList,arg1);
+        centreController.addToCentre(waitingList,centreList,waitingList.size());
+        System.out.println("waitingList.size() after adding to centre = " + waitingList.size());
     }
 
     @When("{int} bootcamp should be opened and takes {int} new trainees")
-    public void bootcampShouldBeOpenedAndTakesNewTrainees(int arg0, int arg1) {
-        c.createCentre(centreList,arg1,2,1,0,0);
-        c.addToCentre(waitingList,centreList,waitingList.size());
+    public void bootcampOpenedAndTakesNewTrainees(int arg0, int numberOfNewTrainees) {
+        centreController.createCentre(centreList,numberOfNewTrainees,2,1,0,0);
+        centreController.addToCentre(waitingList,centreList,waitingList.size());
     }
 
     @Then("{int} trainees should be in waiting list")
     public void traineesShouldBeInWaitingList(int arg0) {
-        Assertions.assertTrue(waitingList.size() == arg0);
+        Assertions.assertEquals(arg0,waitingList.size());
+    }
+
+    @When("{int} training hub should be opened and takes {int} new trainees")
+    public void training_hub_should_be_opened_and_takes_new_trainees(Integer int1, Integer int2) {
+        centreController.createCentre(centreList,int2,1,1,1,0);
+        centreController.addToCentre(waitingList,centreList,waitingList.size());
+    }
+
+    @When("{int} tech centre should be opened and takes new trainees")
+    public void tech_centre_should_be_opened_and_takes_new_trainees(Integer int1) {
+
+    }
+    @Then("only one type trainee should be in tech centre")
+    public void only_one_type_trainee_should_be_in_tech_centre() {
+        // Write code here that turns the phrase above into concrete actions
+        throw new io.cucumber.java.PendingException();
+    }
+    @Then("only this type of trainee should be decreased in waiting list")
+    public void only_this_type_of_trainee_should_be_decreased_in_waiting_list() {
+        // Write code here that turns the phrase above into concrete actions
+        throw new io.cucumber.java.PendingException();
+    }
+    @Then("no centre opened")
+    public void no_centre_opened() {
+        // Write code here that turns the phrase above into concrete actions
+        throw new io.cucumber.java.PendingException();
+    }
+
+    @Then("bootcamp should not be opened")
+    public void bootcampShouldNotBeOpened() {
+        int numberOfBootcamp = centreController.bootcampCheck(centreList, 0);
+        CentreController.centerTypeGen(numberOfBootcamp,2);
+        Assertions.assertTrue(centreController.bootcampCheck(centreList,0) == numberOfBootcamp);
     }
 }
