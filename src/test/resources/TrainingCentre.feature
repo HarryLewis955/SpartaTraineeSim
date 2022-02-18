@@ -1,4 +1,4 @@
-Feature: Training Centre
+Feature: Training Centre 
   Sparta has 3 different types of centres. Training hub, Bootcamp, Tech Centre
 
   Scenario: Maximum 3 training hubs open in one month
