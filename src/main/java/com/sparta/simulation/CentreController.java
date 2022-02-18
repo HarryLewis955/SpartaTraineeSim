@@ -184,19 +184,19 @@ public class CentreController {
                 Collections.rotate(waitingList, 1);
             }
             for (int l = 0; l < centreList.get(k).getCsharpCount(); l++) {
-                waitingList.add(1);
+                waitingList.add(2);
                 Collections.rotate(waitingList, 1);
             }
             for (int l = 0; l < centreList.get(k).getDataCount(); l++) {
-                waitingList.add(1);
+                waitingList.add(3);
                 Collections.rotate(waitingList, 1);
             }
             for (int l = 0; l < centreList.get(k).getDevopsCount(); l++) {
-                waitingList.add(1);
+                waitingList.add(4);
                 Collections.rotate(waitingList, 1);
             }
             for (int l = 0; l < centreList.get(k).getBusinessCount(); l++) {
-                waitingList.add(1);
+                waitingList.add(5);
                 Collections.rotate(waitingList, 1);
             }
             centreList.remove(k);
