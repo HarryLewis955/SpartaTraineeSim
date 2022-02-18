@@ -15,19 +15,18 @@ public class CentreControllerCreateCentreTest {
     ArrayList<Centre> centreArrayList;
     int idCount;
     Random r = new Random();
+    CentreController centerController;
 
     @BeforeEach
     void setUp() {
         centreArrayList = new ArrayList<>();
         idCount = 0;
-
+        centerController = new CentreController();
     }
 
     @Test
     @DisplayName("test if only 1 to 3 training hub created each time")
     public void testIfOnly1to3TrainingHubCreatedEachTime() {
-
-        CentreController centerController = new CentreController();
 
         int experimentLoopTimes = 20;
 
@@ -55,7 +54,6 @@ public class CentreControllerCreateCentreTest {
         @Test
         @DisplayName("test if idCount order is correct")
         public void testIfIdCountOrderIsCorrect(){
-            CentreController centerController = new CentreController();
 
             int experimentLoopTimes = 20;
 
@@ -78,8 +76,6 @@ public class CentreControllerCreateCentreTest {
     @Test
     @DisplayName("generate bootcamp 20 times expected arraylist size and idCount should be 20")
     public void generateBootcamp20TimesExpectedArraylistSizeAndIdCountShouldBe20() {
-
-        CentreController centerController = new CentreController();
 
         int experimentLoopTimes = 20;
 
@@ -104,8 +100,6 @@ public class CentreControllerCreateCentreTest {
     @DisplayName("generate Tech Centre 20 times expected arraylist size and idCount should be 20")
     public void generateTechCentre20TimesExpectedArraylistSizeAndIdCountShouldBe20() {
 
-        CentreController centerController = new CentreController();
-
         int experimentLoopTimes = 20;
 
         for(int i =0;i<experimentLoopTimes;i++) {
@@ -119,12 +113,7 @@ public class CentreControllerCreateCentreTest {
             //System.out.println("idCount: " + idCount);
             //System.out.println("Generated in list: " + centreArrayList.size());
         }
-
         Assertions.assertEquals(experimentLoopTimes, idCount);
-
     }
-
-
-
 }
 

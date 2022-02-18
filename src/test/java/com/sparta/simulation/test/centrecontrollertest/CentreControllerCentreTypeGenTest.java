@@ -1,6 +1,4 @@
 package com.sparta.simulation.test.centrecontrollertest;
-
-
 import com.sparta.simulation.CentreController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +14,7 @@ public class CentreControllerCentreTypeGenTest {
     boolean isTrainingHubGenerated;
     boolean isTechCentreGenerated;
     Random r = new Random();
+    CentreController centreController;
 
     @BeforeEach
     void setUp() {
@@ -23,13 +22,12 @@ public class CentreControllerCentreTypeGenTest {
         isTrainingHubGenerated = false;
         isTechCentreGenerated = false;
         bootCampCount = 0;
+        centreController = new CentreController();
     }
 
     @Test
     @DisplayName("Given 0 bootcamp count expected maximum 2 bootcamp could generated")
     public void given0BootCampCountExpectedMaximum2BootcampCouldGenerated() {
-
-        CentreController centreController = new CentreController();
 
         int experimentLoopTime = 50;
 

@@ -13,10 +13,12 @@ public class CentreControllerBootcampCheckTest {
 
     ArrayList<Centre> centreArrayList;
     final int bootCampCount = 0;
+    CentreController centerController;
 
     @BeforeEach
     void setUp() {
         centreArrayList = new ArrayList<>();
+        centerController = new CentreController();
     }
 
     @Test
@@ -30,7 +32,6 @@ public class CentreControllerBootcampCheckTest {
         centreArrayList.add(c1);
         centreArrayList.add(c2);
 
-        CentreController centerController = new CentreController();
         outputBootCampCount = centerController.bootcampCheck(centreArrayList,bootCampCount);
 
         Assertions.assertEquals(0,outputBootCampCount);
@@ -50,7 +51,6 @@ public class CentreControllerBootcampCheckTest {
         centreArrayList.add(c2);
         centreArrayList.add(c3);
 
-        CentreController centerController = new CentreController();
         outputBootCampCount = centerController.bootcampCheck(centreArrayList,bootCampCount);
 
         Assertions.assertEquals(1,outputBootCampCount);
@@ -72,7 +72,6 @@ public class CentreControllerBootcampCheckTest {
         centreArrayList.add(c3);
         centreArrayList.add(c4);
 
-        CentreController centerController = new CentreController();
         outputBootCampCount = centerController.bootcampCheck(centreArrayList,bootCampCount);
 
         Assertions.assertEquals(2,outputBootCampCount);
@@ -96,15 +95,9 @@ public class CentreControllerBootcampCheckTest {
         centreArrayList.add(c4);
         centreArrayList.add(c5);
 
-
-        CentreController centerController = new CentreController();
         outputBootCampCount = centerController.bootcampCheck(centreArrayList,bootCampCount);
 
         Assertions.assertEquals(3,outputBootCampCount);
 
     }
-
-
-
-
 }
