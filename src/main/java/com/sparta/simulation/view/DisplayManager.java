@@ -22,16 +22,29 @@ public class DisplayManager {
         return choice;
     }
     public void displayOpenCentres(ArrayList<Centre> openCentres){
-        int trainingHub= 0, bootcamp=0, techCentre=0;
+        int trainingHub= 0, bootcamp=0, techCentre=0, fullCentre=0;
         for(Centre centre : openCentres){
-            if(centre.getCentreType()==1)
-                trainingHub +=1;
-            if(centre.getCentreType()==2)
+            if(centre.getCentreType()==1) {
+                trainingHub += 1;
+                if(centre.getCentreCapacity() == 100)
+                    fullCentre += 1;
+
+            }
+            if(centre.getCentreType()==2){
                 bootcamp +=1;
-            if(centre.getCentreType()==3)
+                if(centre.getCentreCapacity() == 500)
+                    fullCentre += 1;
+
+            }
+            if(centre.getCentreType()==3){
                 techCentre +=1;
+                if(centre.getCentreCapacity() == 200)
+                    fullCentre += 1;
+
+            }
         }
         System.out.println("Total number of open centres: "+ openCentres.size());
+        System.out.println("Number of full centres "+ fullCentre);
         System.out.println("Breakdown for each type below");
         System.out.println("Number of open Training Hubs: "+ trainingHub);
         System.out.println("Number of open Bootcamps: "+ bootcamp);
@@ -59,16 +72,17 @@ public class DisplayManager {
     }
 
     public void numberOnTraining(ArrayList<Centre> openCentres) {
-        int java =0, csharp=0, data=0, devOps=0, business=0, sum;
+        int java = 0, csharp = 0, data = 0, devOps = 0, business = 0, total = 0;
         for(int i = 0; i < openCentres.size(); i++){
             java += openCentres.get(i).getJavaCount();
             csharp += openCentres.get(i).getCsharpCount();
             data += openCentres.get(i).getDataCount();
             devOps += openCentres.get(i).getDevopsCount();
             business += openCentres.get(i).getBusinessCount();
+            total+= openCentres.get(i).getTotal();
         }
-        sum = java+ csharp+data+devOps+business;
-        System.out.println("Total number of trainees on training: " +sum);
+
+        System.out.println("Total number of trainees on training: " + total);
         System.out.println("Breakdown for each type below");
         System.out.println("Number of Java trainees on training: "  + java);
         System.out.println("Number of C# trainees on training: " + csharp);
