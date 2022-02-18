@@ -1,3 +1,4 @@
+@ip
 Feature: Training Centre
   Sparta has 3 different types of centres. Training hub, Bootcamp, Tech Centre
 
@@ -15,24 +16,6 @@ Feature: Training Centre
     When no bootcamp opened
     When no tech centre opened
     Then minimum 1 training hub should be opened
-    Then simulation should be ended
-
-  Scenario: Only two training hubs open in two months
-    Given user enters 1 to start simulation
-    When the program is generating 100 trainees in this month
-    When no bootcamp opened
-    When no tech centre opened
-    When 2 training hub opened
-    Then training hub 1 takes new 50 trainees
-    Then training hub 2 takes new 50 trainees
-    When the program is generating 100 trainees in this month
-    Then no bootcamp opened
-    Then no tech centre opened
-    Then no training hub opened
-    Then training hub 1 takes new 50 trainees
-    Then training hub 2 takes new 50 trainees
-    Then training hub 1 is full of 100 trainees
-    Then training hub 2 is full of 100 trainees
     Then simulation should be ended
 
   Scenario: Only one bootcamp open in one month
@@ -55,6 +38,7 @@ Feature: Training Centre
     Then no training hub opened
     Then no tech centre opened
     Then no bootcamp opened
+    When bootcamp 1 takes 30 new trainees
     When the program is generating 60 trainees in this month
     Then no training hub opened
     Then no tech centre opened
@@ -65,8 +49,9 @@ Feature: Training Centre
     Then no training hub opened
     Then no tech centre opened
     Then no bootcamp opened
+    Then bootcamp 2 takes 30 new trainees
     When the program is generating 50 trainees in this month
-    Then no bootcamp opened
+    Then 1 training hub opened
+    Then no tech centre opened
+    Then bootcamp should not be opened
     Then simulation should be ended
-
-

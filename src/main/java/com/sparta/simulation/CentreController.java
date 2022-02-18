@@ -94,11 +94,12 @@ public class CentreController {
             for (int j = 0; j < waitingListSize; j++) {
                 for(int l = 0; l < centreList.size(); l++){
                     // Check capacity free in each traineesInCentres
-                    for (int k = 0; k < centreList.size(); k++) {
+//                    for (int k = 0; k < centreList.size(); k++) {
                         int freeCapacity = centreList.get(l).getCentreCapacity() - centreList.get(l).getTotal();
                         // If there is free capacity in the centre, add the trainee to the centre
                         if(freeCapacity > 0  && waitingList.size() > 0 && centreList.get(l).getCentreType() != 3 && freeCapacity <= centreList.get(l).getCentreCapacity()){
                             // move to method
+
                             addCentreOneTwo(centreList,waitingList, l, monthlyTrainees, traineesInTraining, i);
 
 //                            break;
@@ -106,8 +107,9 @@ public class CentreController {
                             CentreController centre3Controller = new CentreController();
                             centre3Controller.addToCentre3(waitingList, centreList, l, monthlyTrainees, traineesInTraining, i);
 //                            break;
+
                         }
-                    }
+//                    }
                 }
             }
         }

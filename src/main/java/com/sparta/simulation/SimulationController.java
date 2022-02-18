@@ -45,6 +45,7 @@ public class SimulationController {
             int techCentreStream = r.nextInt(1,6); // only for centre type 3
             int centreType = r.nextInt(1,4);
 //            int centreType = 1;
+
             int newTrainees = r.nextInt(50,101);
 //            int newTrainees = 5;
             int centreCapacity = r.nextInt(0,51);
@@ -56,6 +57,7 @@ public class SimulationController {
 
             // From the new trainees this month, assign each a stream and add to the waiting list, return new row to represent trainees for that month
             int[] monthlyCount = TraineeController.createTrainee(newTrainees, javaCount, csharpCount, dataCount, devopsCount, businessCount, waitingList);
+
 
             // Increase number of trainees each centre takes for this month (random for each centre between 0-50)
             CentreController centreControl = new CentreController();
