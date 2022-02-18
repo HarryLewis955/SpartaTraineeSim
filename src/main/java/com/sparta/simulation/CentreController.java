@@ -1,9 +1,6 @@
 package com.sparta.simulation;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class CentreController {
 
@@ -59,7 +56,7 @@ public class CentreController {
         if(centreType == 1) {
 //            int numberOfHub = r.nextInt(1, 4);
             for (int j = 0; j < numberOfTrainingHub; j++) {
-                Centre centre = new Centre(idCount, r.nextInt(0,50), centreType, 0);
+                Centre centre = new Centre(idCount, r.nextInt(0,51), centreType, 0);
                 centreList.add(centre);
                 idCount++;
             }
@@ -89,7 +86,7 @@ public class CentreController {
 
     // takes trainee from waiting list and adds to centre
 
-    public ArrayList<Centre> addToCentre(ArrayList<Integer> waitingList, ArrayList<Centre> centreList, int waitingListSize){
+    public ArrayList<Centre> addToCentre(ArrayList<Integer> waitingList, ArrayList<Centre> centreList, int waitingListSize, int[] monthlyTrainees, ArrayList<int[]> traineesInTraining, int i){
         if (waitingList.size() > 0){
             // For each trainee in the waiting list
             for (int j = 0; j < waitingListSize; j++) {
@@ -100,12 +97,15 @@ public class CentreController {
                         // If there is free capacity in the centre, add the trainee to the centre
                         if(freeCapacity > 0  && waitingList.size() > 0 && centreList.get(l).getCentreType() != 3 && freeCapacity <= centreList.get(l).getCentreCapacity()){
                             // move to method
-                            addCentreOneTwo(centreList,waitingList, l);
-                            break;
+
+                            addCentreOneTwo(centreList,waitingList, l, monthlyTrainees, traineesInTraining, i);
+
+//                            break;
                         } else if (freeCapacity > 0 && waitingList.size() > 0 && centreList.get(l).getCentreType() == 3){
                             CentreController centre3Controller = new CentreController();
-                            centre3Controller.addToCentre3(waitingList, centreList, l);
-                            break;
+                            centre3Controller.addToCentre3(waitingList, centreList, l, monthlyTrainees, traineesInTraining, i);
+//                            break;
+
                         }
 //                    }
                 }
@@ -117,7 +117,7 @@ public class CentreController {
 
 
 // add to centres 1 & 2
-    public void addCentreOneTwo(ArrayList<Centre> centreList, ArrayList<Integer> waitingList, int l){
+    public void addCentreOneTwo(ArrayList<Centre> centreList, ArrayList<Integer> waitingList, int l, int[] monthlyTrainees, ArrayList<int[]> traineesInTraining, int i){
         int traineeType = waitingList.get(0);
         if(traineeType == 1){
             centreList.get(l).setJavaCount(centreList.get(l).getJavaCount() + 1);
@@ -132,27 +132,43 @@ public class CentreController {
         } else{
             System.out.println("error3");
         }
+        monthlyTrainees[waitingList.get(0) - 1]++;
+//        monthlyTrainees[5] = i;
+        //monthlyTrainees.();
+//        Arrays.fill(monthlyTrainees, 0);
         waitingList.remove(0);
     }
 
 // add to centre 3
-    public void addToCentre3(ArrayList<Integer> waitingList, ArrayList<Centre> centreList, int l){
+    public void addToCentre3(ArrayList<Integer> waitingList, ArrayList<Centre> centreList, int l, int[] monthlyTrainees, ArrayList<int[]> traineesInTraining, int i){
 
         int traineeType = waitingList.get(0);
         if(traineeType == 1 && centreList.get(l).getStream() == 1){
             centreList.get(l).setJavaCount(centreList.get(l).getJavaCount() + 1);
+            monthlyTrainees[waitingList.get(0) - 1]++;
+//            monthlyTrainees[5] = i;
             waitingList.remove(0);
+
         } else if (traineeType == 2 && centreList.get(l).getStream() == 2){
             centreList.get(l).setCsharpCount(centreList.get(l).getCsharpCount() + 1);
+            monthlyTrainees[waitingList.get(0) - 1]++;
+//            monthlyTrainees[5] = i;
             waitingList.remove(0);
         } else if (traineeType == 3 && centreList.get(l).getStream() == 3){
             centreList.get(l).setDataCount(centreList.get(l).getDataCount() + 1);
+            monthlyTrainees[waitingList.get(0) - 1]++;
+//            monthlyTrainees[5] = i;
             waitingList.remove(0);
         } else if (traineeType == 4 && centreList.get(l).getStream() == 4){
             centreList.get(l).setDevopsCount(centreList.get(l).getDevopsCount() + 1);
+            monthlyTrainees[waitingList.get(0) - 1]++;
+//            monthlyTrainees[5] = i;
+
             waitingList.remove(0);
         } else if (traineeType == 5 && centreList.get(l).getStream() == 5){
             centreList.get(l).setBusinessCount(centreList.get(l).getBusinessCount() + 1);
+            monthlyTrainees[waitingList.get(0) - 1]++;
+//            monthlyTrainees[5] = i;
             waitingList.remove(0);
         } else {
             Collections.rotate(waitingList.subList(0 ,waitingList.indexOf(centreList.get(l).getStream()) + 1), 1);

@@ -3,7 +3,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class TraineeController {
-    public static ArrayList<Integer> createTrainee(int newTrainees, int javaCount, int csharpCount, int dataCount, int devopsCount, int businessCount,ArrayList<Integer> waitingList){
+    public static int[] createTrainee(int newTrainees, int javaCount, int csharpCount, int dataCount, int devopsCount, int businessCount,ArrayList<Integer> waitingList){
+    //public static void createTrainee(int newTrainees, int javaCount, int csharpCount, int dataCount, int devopsCount, int businessCount,ArrayList<Integer> waitingList){
         Random r = new Random();
         for(int j = 0; j < newTrainees; j++){
             int traineeType = r.nextInt(1,6);
@@ -22,6 +23,6 @@ public class TraineeController {
                 System.out.println("error - Trainee creation");
             }
         }
-        return waitingList;
+        return new int[] {javaCount, csharpCount, dataCount, devopsCount, businessCount};
     }
 }
