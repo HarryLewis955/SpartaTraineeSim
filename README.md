@@ -1,14 +1,17 @@
 # Sparta Trainee Simulation
 
 ## How the project works
+
 The simulation can take in a number of months. It will randomly generate information on trainees, centers and clients each month. Each month, it will generate clients, and every two months it will generate clients. After a year of the training, it will start generating clients to use.
 At the end of the simulation you will be able to see information on each of the generated classes.
+
 
 ## How to use the project
 
 ## Sprints
 ### Sprint 1
 The first sprint was making the core loop of the project. We created a trello board to keep track of what we were working on and what was coming up and starting drafting a testing plan.
+
 #### Sprint review
 It took longer than expected, and due to this we had to adapt the future sprints around this. We were not happy with the rate of this sprint, but understand the scale of the project made it difficult to know how to adapt.
 ### Sprint 2
@@ -24,11 +27,13 @@ Adding in the information from day 3 into the main loop was the main part of the
 #### Sprint review
 As sprint 3 went much better, sprint 4 also went well. The sprint was not a large amount of things to do and we got through them at a good pace. With one or two exceptions, this was just for cleaning up and and as such with not a lot of pressure it was a more relaxed sprint.
 
+
 ## Dependanices
 ## Epics 
 We create 4 different epics for each part of the project that we can then use to create user stories, and then made our acceptance criteria based on that.
 ### Inputs
 As a user I want:
+
 to be able to input a nmumber of months for the program to run for.
 ##### Acceptance Criteria
 The program must be able to accept a number of months that will tell the program how long to run for.
