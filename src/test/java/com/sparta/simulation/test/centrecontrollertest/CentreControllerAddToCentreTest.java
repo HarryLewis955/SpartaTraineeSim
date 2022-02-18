@@ -140,7 +140,7 @@ public class CentreControllerAddToCentreTest {
 
     @Test
     @DisplayName("add 10 trainees 5 in Csharp stream into csharp tech center expected non-sharp student will be on waiting list")
-    public void add10Students(){
+    public void add10Trainees5InCsharpIntoCsharpTechCenterExpectedNonCSharpStudentWillBeOnWaitingList(){
 
         waitingList.add(2);
         waitingList.add(1);

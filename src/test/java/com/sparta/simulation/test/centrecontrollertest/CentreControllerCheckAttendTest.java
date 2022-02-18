@@ -118,7 +118,7 @@ public class CentreControllerCheckAttendTest {
             CentreController.checkAttend(centreArrayList, removedCentreArrayList);
         }
 
-        Assertions.assertEquals(1,centreArrayList.size());                                      //No removal method yet, otherwise it should be 0
+        Assertions.assertEquals(1,centreArrayList.size());
         Assertions.assertEquals(0,removedCentreArrayList.size());
 
     }
@@ -143,7 +143,7 @@ public class CentreControllerCheckAttendTest {
             CentreController.checkAttend(centreArrayList, removedCentreArrayList);
         }
 
-        Assertions.assertEquals(3,centreArrayList.size());                                      //No removal method yet, otherwise it should be 0
+        Assertions.assertEquals(3,centreArrayList.size());
         Assertions.assertEquals(0,removedCentreArrayList.size());
 
     }

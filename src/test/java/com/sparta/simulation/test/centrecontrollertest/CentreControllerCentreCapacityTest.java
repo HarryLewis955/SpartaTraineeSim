@@ -17,6 +17,7 @@ public class CentreControllerCentreCapacityTest {
     final int centreTwoFull = 500;
     final int centreThreeFull = 200;
     ArrayList<Centre> centreArrayList;
+    CentreController centerController;
 
     @BeforeEach
     void setUp() {
@@ -27,6 +28,7 @@ public class CentreControllerCentreCapacityTest {
         centreArrayList.add(c1);
         centreArrayList.add(c2);
         centreArrayList.add(c3);
+        centerController = new CentreController();
     }
 
 
@@ -36,8 +38,6 @@ public class CentreControllerCentreCapacityTest {
 
         centreCapacity = 40;
         centreOpenTimes = 1;
-
-        CentreController centerController = new CentreController();
 
         for (int i = 0; i < centreOpenTimes; i++) {
             centerController.centreCapacity(centreArrayList, 40);
@@ -56,8 +56,6 @@ public class CentreControllerCentreCapacityTest {
         centreCapacity = 40;
         centreOpenTimes = 2;
 
-        CentreController centerController = new CentreController();
-
         for (int i = 0; i < centreOpenTimes; i++) {
             centerController.centreCapacity(centreArrayList, 40);
         }
@@ -74,8 +72,6 @@ public class CentreControllerCentreCapacityTest {
 
         centreCapacity = 40;
         centreOpenTimes = 3;
-
-        CentreController centerController = new CentreController();
 
         for (int i = 0; i < centreOpenTimes; i++) {
             centerController.centreCapacity(centreArrayList, 40);
@@ -94,8 +90,6 @@ public class CentreControllerCentreCapacityTest {
         centreCapacity = 40;
         centreOpenTimes = 6;
 
-        CentreController centerController = new CentreController();
-
         for (int i = 0; i < centreOpenTimes; i++) {
             centerController.centreCapacity(centreArrayList, 40);
         }
@@ -112,8 +106,6 @@ public class CentreControllerCentreCapacityTest {
 
         centreCapacity = 40;
         centreOpenTimes = 13;
-
-        CentreController centerController = new CentreController();
 
         for (int i = 0; i < centreOpenTimes; i++) {
             centerController.centreCapacity(centreArrayList, 40);
@@ -138,8 +130,6 @@ public class CentreControllerCentreCapacityTest {
         centreArrayList.add(c4);
         centreArrayList.add(c5);
         centreArrayList.add(c6);
-
-        CentreController centerController = new CentreController();
 
         for (int i = 0; i < centreOpenTimes; i++) {
             centerController.centreCapacity(centreArrayList, 40);
@@ -169,8 +159,6 @@ public class CentreControllerCentreCapacityTest {
         centreArrayList.add(c5);
         centreArrayList.add(c6);
 
-        CentreController centerController = new CentreController();
-
         for (int i = 0; i < centreOpenTimes; i++) {
             centerController.centreCapacity(centreArrayList, 40);
         }
@@ -181,30 +169,5 @@ public class CentreControllerCentreCapacityTest {
         Assertions.assertEquals(centreThreeFull, centreArrayList.get(3).getCentreCapacity());
         Assertions.assertEquals(centreCapacity * centreOpenTimes, centreArrayList.get(4).getCentreCapacity());
         Assertions.assertEquals(centreOneFull,centreArrayList.get(5).getCentreCapacity());
-    }
-
-    @Test
-    @DisplayName("test given invalid centre type")
-    public void testGivenInvalidCentreType() {
-
-        centreCapacity = 40;
-        centreOpenTimes = 1;
-
-        CentreController centerController = new CentreController();
-        Centre c4 = new Centre(4, 0, 0, 0);
-        Centre c5 = new Centre(5, 0, 4, 0);
-
-        centreArrayList.add(c4);
-        centreArrayList.add(c5);
-
-        for (int i = 0; i < centreOpenTimes; i++) {
-            centerController.centreCapacity(centreArrayList, 40);
-        }
-
-        Assertions.assertEquals(centreCapacity * centreOpenTimes, centreArrayList.get(0).getCentreCapacity());
-        Assertions.assertEquals(centreCapacity * centreOpenTimes, centreArrayList.get(1).getCentreCapacity());
-        Assertions.assertEquals(centreCapacity * centreOpenTimes, centreArrayList.get(2).getCentreCapacity());
-        Assertions.assertEquals(0, centreArrayList.get(3).getCentreCapacity());
-        Assertions.assertEquals(0, centreArrayList.get(4).getCentreCapacity());
     }
 }
