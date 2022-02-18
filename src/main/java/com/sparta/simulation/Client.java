@@ -8,28 +8,35 @@ public class Client {
     private boolean isHappy;
     private int currentTrainees;
     private int randomTrainees;
+    private int originalTraineesReq;
 
-
-    public Client(Integer clientID, int traineeRequirement, int traineeType, int clientCounter, boolean isHappy, int randomTrainees) {
+    public Client(Integer clientID, int traineeType,  int traineeRequirement,int  randomTrainees) {
         this.clientID = clientID;
         this.traineeRequirement = traineeRequirement;
         this.traineeType = traineeType;
-        this.clientCounter = clientCounter;
-        this.isHappy = isHappy;
-        this.currentTrainees += randomTrainees;
         this.randomTrainees = randomTrainees;
+        this.originalTraineesReq = traineeRequirement;
     }
 
     public Integer getDifference(){
         return traineeRequirement - currentTrainees;
     }
-    public void isClientHappy(){
+    public boolean isClientHappy(int currentTrainees, int traineeRequirement){
         if(clientCounter == 12){
             isHappy = currentTrainees == traineeRequirement;
         }
+        return isHappy;
     }
     public Integer getClientID() {
         return clientID;
+    }
+
+    public int getOriginalTraineesReq() {
+        return originalTraineesReq;
+    }
+
+    public void setOriginalTraineesReq(int originalTraineesReq) {
+        this.originalTraineesReq = originalTraineesReq;
     }
 
     public void setClientID(Integer clientID) {
@@ -82,5 +89,19 @@ public class Client {
 
     public void setRandomTrainees(int randomTrainees) {
         this.randomTrainees = randomTrainees;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "clientID=" + clientID +
+                ", traineeRequirement=" + traineeRequirement +
+                ", originalRequirement="+ originalTraineesReq+
+                ", traineeType=" + traineeType +
+                ", clientCounter=" + clientCounter +
+                ", isHappy=" + isHappy +
+                ", currentTrainees=" + currentTrainees +
+                ", randomTrainees=" + randomTrainees +
+                '}';
     }
 }
