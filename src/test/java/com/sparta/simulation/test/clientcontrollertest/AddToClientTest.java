@@ -158,6 +158,35 @@ public class AddToClientTest {
 
     }
 
+    @Test
+    @DisplayName("Given 30 Java trainees with client require Max 20 student 5 per month expected 10 students remain in bench after 5 months")
+    public void Given30JavaTraineesClientRequireMax20Student5PerMonthExpected10studentsRemainInBenchAfter5Months() {
+        for(int i =0; i < 30; i ++){
+            bench.add(1);
+        }
+        Client client = new Client(clientIdCount, 1, 20, 5);
+        clientIdCount++;
+        clientList.add(client);
+
+        clientController.addToClient(clientList, bench);
+        Assertions.assertEquals(5,clientList.get(0).getCurrentTrainees());
+
+        clientController.addToClient(clientList, bench);
+        Assertions.assertEquals(10,clientList.get(0).getCurrentTrainees());
+
+        clientController.addToClient(clientList, bench);
+        Assertions.assertEquals(15,clientList.get(0).getCurrentTrainees());
+
+        clientController.addToClient(clientList, bench);
+        Assertions.assertEquals(20,clientList.get(0).getCurrentTrainees());
+
+        clientController.addToClient(clientList, bench);
+        Assertions.assertEquals(20,clientList.get(0).getCurrentTrainees());
+
+        Assertions.assertEquals(10,bench.size());
+    }
+
+
 
 
 }
