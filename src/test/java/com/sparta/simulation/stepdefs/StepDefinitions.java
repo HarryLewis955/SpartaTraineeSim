@@ -11,10 +11,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.jupiter.api.Assertions;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class StepDefinitions {
 
@@ -25,9 +22,9 @@ public class StepDefinitions {
     ArrayList<Integer> waitingList = new ArrayList<>();
     List<Integer> listWithoutDuplicates = new ArrayList<>();
     List<Integer> descendingBench = new ArrayList<>();
-    List<Centre> closedCentres = new ArrayList<>();
-    List<Integer> centresToClose = new ArrayList<>();
-    List<Integer> temporaryList;
+    ArrayList<Centre> closedCentres = new ArrayList<>();
+    ArrayList<Integer> centresToClose = new ArrayList<>();
+    List<Integer> temporaryList = new ArrayList<>();
     List<Client> clientList = new ArrayList<>();
     List<Integer> bench = new ArrayList<>();
     ArrayList<int[]> traineesInTraining = new ArrayList<>();
@@ -113,29 +110,29 @@ public class StepDefinitions {
 
     @Then("only one type trainee should be in tech centre")
     public void only_one_type_trainee_should_be_in_tech_centre() {
-        for(Centre centre : centreList){
-            if(centre.getCentreType() == 3){
-                if(centre.getJavaCount() != 0){
+        for (Centre centre : centreList) {
+            if (centre.getCentreType() == 3) {
+                if (centre.getJavaCount() != 0) {
                     Assertions.assertEquals(0, centre.getBusinessCount());
                     Assertions.assertEquals(0, centre.getCsharpCount());
                     Assertions.assertEquals(0, centre.getDataCount());
                     Assertions.assertEquals(0, centre.getDevopsCount());
-                }else if (centre.getDevopsCount() != 0){
+                } else if (centre.getDevopsCount() != 0) {
                     Assertions.assertEquals(0, centre.getBusinessCount());
                     Assertions.assertEquals(0, centre.getCsharpCount());
                     Assertions.assertEquals(0, centre.getDataCount());
                     Assertions.assertEquals(0, centre.getJavaCount());
-                }else if (centre.getDataCount() != 0){
+                } else if (centre.getDataCount() != 0) {
                     Assertions.assertEquals(0, centre.getBusinessCount());
                     Assertions.assertEquals(0, centre.getCsharpCount());
                     Assertions.assertEquals(0, centre.getDevopsCount());
                     Assertions.assertEquals(0, centre.getJavaCount());
-                }else if (centre.getCsharpCount() != 0){
+                } else if (centre.getCsharpCount() != 0) {
                     Assertions.assertEquals(0, centre.getBusinessCount());
                     Assertions.assertEquals(0, centre.getDataCount());
                     Assertions.assertEquals(0, centre.getDevopsCount());
                     Assertions.assertEquals(0, centre.getJavaCount());
-                }else if(centre.getBusinessCount() != 0){
+                } else if (centre.getBusinessCount() != 0) {
                     Assertions.assertEquals(0, centre.getCsharpCount());
                     Assertions.assertEquals(0, centre.getDataCount());
                     Assertions.assertEquals(0, centre.getDevopsCount());
@@ -196,5 +193,28 @@ public class StepDefinitions {
         System.out.println("waitingList.size() = " + waitingList.size());
         centreController.addToCentre(waitingList, centreList, numberOfTrainees, monthlyTrainees, traineesInTraining, 0);
         System.out.println("waitingList.size() after adding to centre = " + waitingList.size());
+    }
+
+    @Then("{int} months passed")
+    public void monthsPassed(int months) {
+        CentreController.checkAttend(centreList, centresToClose);
+    }
+
+    @Then("centres should not be closed")
+    public void centresShouldNotBeClosed() {
+        Assertions.assertTrue(closedCentres.size() == 0);
+    }
+
+    @Then("check centre attendance and try to close it")
+    public void checkCentreAttendanceAndTryToCloseIt() {
+        temporaryList = centresToClose.stream().distinct().toList();
+        new LinkedList<>(temporaryList).descendingIterator().forEachRemaining(listWithoutDuplicates::add);
+        centreController.closeCentre(listWithoutDuplicates, centreList, closedCentres, waitingList);
+    }
+
+    @Then("centres should be closed if attendance lower than twenty five")
+    public void centresShouldBeClosedIfAttendanceLowerThanTwentyFive() {
+        System.out.println("temporaryList.size() = " + temporaryList.size());
+        Assertions.assertEquals(0, centreList.size());
     }
 }

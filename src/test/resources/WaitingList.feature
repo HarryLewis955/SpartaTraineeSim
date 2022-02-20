@@ -22,7 +22,7 @@ Feature: Waiting List
       | 100                         | 30                              | 70                             | 130                            | 80               | 20          |
       | 50                          | 50                              | 0                              | 0                              | 10               | 10          |
 
-  Scenario Outline:
+  Scenario Outline: Test to correct amount of trainees in waiting list
     When user enters 1 to start simulation
     When the program is generating <traineesToGenerate> trainees in this month
     Then 1 centre type 2 should be opened in month 0
@@ -35,7 +35,7 @@ Feature: Waiting List
       | 80                 | 40          | 40                            |
       | 70                 | 30          | 40                            |
 
-  Scenario Outline:
+  Scenario Outline: Only one type trainee in tech centre
     When user enters 1 to start simulation
     When the program is generating <traineesInMonth0> trainees in this month
     When 1 centre type 3 should be opened in month 0

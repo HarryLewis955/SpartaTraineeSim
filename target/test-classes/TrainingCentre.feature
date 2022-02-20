@@ -54,3 +54,17 @@ Feature: Training Centre
     Then 0 centre type 3 should be opened in month 4
     Then new bootcamp should not be opened
     Then simulation should be ended
+
+    Scenario: Lower attendance
+      When the program is generating 20 trainees in this month
+      When 1 centre type 1 should be opened in month 0
+      Then centres take 20 new trainees
+      Then 1 months passed
+      Then check centre attendance and try to close it
+      Then centres should not be closed
+      Then 1 months passed
+      Then check centre attendance and try to close it
+      Then centres should not be closed
+      Then 1 months passed
+      Then check centre attendance and try to close it
+      Then centres should be closed if attendance lower than twenty five
