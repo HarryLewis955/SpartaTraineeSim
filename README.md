@@ -116,7 +116,14 @@ They should leave happy if they have enough students
 
 They should leave unhappy if they don’t reach their max
 
+## Behavior-driven development
 
+In this project, BDD approach is used to test the program in different scenarios. Cucumber tool and gherkin language were also added to be able to do that. There were several impediments in this testing due to the nature of program. There is not many interactions in the program for user, but since BDD approach is more similar to black-box testing, what has been done in this program looks like white box testing more. 
+
+![image-ResultsOfTrainingCentre](https://i.imgur.com/a27JBHF.png)
+
+![image-ResultsOfWaitingList](https://i.imgur.com/durbYEn.png)
 
 ## Review
 Overall we are happy with the outcome of the project. There are some improvements we would make given the opportunity, but this would be mostly to our process. Given more time, we would spend more time formally reviewing and going over each sprint, which would help us improve in the future.
+
