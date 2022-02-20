@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class CentreControllerCreateCentreTest {
+public class CreateCentreTest {
 
     ArrayList<Centre> centreArrayList;
     int idCount;
