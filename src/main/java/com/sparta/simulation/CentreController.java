@@ -1,5 +1,7 @@
 package com.sparta.simulation;
 
+import io.cucumber.java.sl.In;
+
 import java.util.*;
 
 public class CentreController {
@@ -203,7 +205,29 @@ public class CentreController {
         }
     }
 
+    public void removeFromCentre(ArrayList<Centre> centreList, ArrayList<Integer> bench){
+//        for (int j = 0; j < bench.size(); j++) {
+//            for (int k = 0; k < centreList.size(); k++) {
+//                if (centreList.get(k).getJavaCount() > 0 && bench.get(j) == 1){
+//                    centreList.get(k).setJavaCount(centreList.get(k).getJavaCount() - 1);
+//                    break;
+//                } else if (centreList.get(k).getCsharpCount() > 0 && bench.get(j) == 2){
+//                    centreList.get(k).setCsharpCount(centreList.get(k).getCsharpCount() - 1);
+//                    break;
+//                } else if (centreList.get(k).getDataCount() > 0 && bench.get(j) == 3){
+//                    centreList.get(k).setDataCount(centreList.get(k).getDataCount() - 1);
+//                    break;
+//                } else if (centreList.get(k).getDevopsCount() > 0 && bench.get(j) == 4){
+//                    centreList.get(k).setDevopsCount(centreList.get(k).getDevopsCount() - 1);
+//                    break;
+//                } else if (centreList.get(k).getBusinessCount() > 0 && bench.get(j) == 5){
+//                    centreList.get(k).setBusinessCount(centreList.get(k).getBusinessCount() - 1);
+//                    break;
+//                }
+//            }
+//        }
 
+    }
 
 
 }

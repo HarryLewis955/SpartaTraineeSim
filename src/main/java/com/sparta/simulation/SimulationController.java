@@ -1,4 +1,5 @@
 package com.sparta.simulation;
+import com.sparta.simulation.view.DisplayManager;
 import io.cucumber.java.bs.A;
 
 import java.util.*;
@@ -6,9 +7,9 @@ import java.util.stream.Collectors;
 
 public class SimulationController {
     public static void main(String[] args) {
-
-        int months = 24;// user to define this
-
+        DisplayManager dm = new DisplayManager();
+        int months = dm.getNumberOfMonths();// user defines this
+        int displayChoice = dm.choiceOfDisplay();
 
         // Initializing the lists to be used
         ArrayList<Integer> waitingList = new ArrayList<>();
@@ -58,7 +59,6 @@ public class SimulationController {
             int[] monthlyCount = TraineeController.createTrainee(newTrainees, javaCount, csharpCount, dataCount, devopsCount, businessCount, waitingList);
 
 
-
             // Increase number of trainees each centre takes for this month (random for each centre between 0-50)
             CentreController centreControl = new CentreController();
             centreControl.centreCapacity(centreList, centreCapacity);
@@ -79,9 +79,7 @@ public class SimulationController {
             // Create unchanging size of waiting list to reference
             int waitingListSize = waitingList.size();
 
-            // If there are trainees in the waiting list, add to the next free centre
-            // Always take from index 0 of waiting list to ensure first into the list are first out
-            centreList = centreControl.addToCentre(waitingList, centreList, waitingListSize, monthlyTrainees, traineesInTraining, i);
+
 
             // Check if attendance is less than 25, if 3 months of low attendance then add to the "to be closed list"
             // "To be closed list" contains the position of that centre in centreList
@@ -101,35 +99,19 @@ public class SimulationController {
             listWithoutDuplicates.clear();
             centresToClose.clear();
 
+            // If there are trainees in the waiting list, add to the next free centre
+            // Always take from index 0 of waiting list to ensure first into the list are first out
+            centreList = centreControl.addToCentre(waitingList, centreList, waitingListSize, monthlyTrainees, traineesInTraining, i);
 
+            ClientController c = new ClientController();
             // Increase client counter by 1 and if its 12 check whether they are staying or going
-            for (int j = 0; j < clientList.size(); j++) {
-                clientList.get(j).setClientCounter(clientList.get(j).getClientCounter() + 1);
-                if(clientList.get(j).getClientCounter() == 12 && clientList.get(j).getCurrentTrainees() == clientList.get(j).getTraineeRequirement()){
-                    clientList.get(j).setClientCounter(0);
-                    clientList.get(j).setTraineeRequirement(clientList.get(j).getOriginalTraineesReq()+clientList.get(j).getTraineeRequirement());
-                    clientList.get(j).setHappy(true);
-
-                } else if (clientList.get(j).getClientCounter() == 12 && clientList.get(j).getCurrentTrainees() != clientList.get(j).getTraineeRequirement()){
-                    closedClients.add(clientList.get(j));
-                    clientList.get(j).setHappy(false);
-                    clientList.remove(clientList.get(j));
-                }
-            }
+            c.addToCounter(clientList, closedClients);
 
 
             // add the graduating trainees for that month to the bench
             traineesInTraining.add(monthlyTrainees);
-            for (int j = 0; j < traineesInTraining.size(); j++) {
-                if (traineesInTraining.get(j)[5] == 3) {
-                    for (int l = 0; l < 5; l++) {
-                        for (int k = 0; k < traineesInTraining.get(j)[l]; k++) {
-                            bench.add(l + 1);
-                        }
-                    }
-                }
-                traineesInTraining.get(j)[5]++;
-            }
+            TraineeController.removeFromCentreAddToBench(traineesInTraining, bench, centreList);
+
 
             // create a client 50% chance each month and give it a random requirement and stream
             boolean clientToBeMade = r.nextBoolean();
@@ -140,79 +122,63 @@ public class SimulationController {
             }
 
             // Remove from first centre that has the correct stream available
-            for (int j = 0; j < bench.size(); j++) {
-                for (int k = 0; k < centreList.size(); k++) {
-                    if (centreList.get(k).getJavaCount() > 0 && bench.get(j) == 1){
-                        centreList.get(k).setJavaCount(centreList.get(k).getJavaCount() - 1);
-                        break;
-                    } else if (centreList.get(k).getCsharpCount() > 0 && bench.get(j) == 2){
-                        centreList.get(k).setCsharpCount(centreList.get(k).getCsharpCount() - 1);
-                        break;
-                    } else if (centreList.get(k).getDataCount() > 0 && bench.get(j) == 3){
-                        centreList.get(k).setDataCount(centreList.get(k).getDataCount() - 1);
-                        break;
-                    } else if (centreList.get(k).getDevopsCount() > 0 && bench.get(j) == 4){
-                        centreList.get(k).setDevopsCount(centreList.get(k).getDevopsCount() - 1);
-                        break;
-                    } else if (centreList.get(k).getBusinessCount() > 0 && bench.get(j) == 5){
-                        centreList.get(k).setBusinessCount(centreList.get(k).getBusinessCount() - 1);
-                        break;
-                    }
-                }
-            }
+            // centreControl.removeFromCentre(centreList, bench);
 
-            // loop through clients and give them the correct trainees from the bench
-            for (int j = 0; j < clientList.size(); j++) {
-                int needed = clientList.get(j).getDifference();
-                int streamNeeded = clientList.get(j).getTraineeType();
-                int occurrences = Collections.frequency(bench, streamNeeded);
-                int benchSize = bench.size();
-                    int min = Math.min(occurrences, clientList.get(j).getRandomTrainees());
-                    for (int k = 0; k < min; k++) {
-                        if (clientList.get(j).getTraineeRequirement() > clientList.get(j).getCurrentTrainees()) {
-                            if (needed > 0) {
-                                clientList.get(j).setCurrentTrainees(clientList.get(j).getCurrentTrainees() + 1);
-                                bench.remove(bench.indexOf(streamNeeded));
-                                //descendingBench.remove(position);
-                            }
-                        }
-                    }
-
-
-            }
-
-
-            System.out.println(bench);
-            //System.out.println(traineesInTraining.get(0));
-
-            // PRINTING OUT STUFF
-            for (int m = 0; m < centreList.size(); m++) {
-                System.out.println(centreList.get(m).getCentreID() +
-                        " Java: " + centreList.get(m).getJavaCount() +
-                        " C#: " + centreList.get(m).getCsharpCount() +
-                        " Data: " + centreList.get(m).getDataCount() +
-                        " DevOps: " + centreList.get(m).getDevopsCount() +
-                        " Business: " + centreList.get(m).getBusinessCount() +
-                        " Total: " + centreList.get(m).getTotal());
+//            // loop through clients and give them the correct trainees from the bench
+            c.addToClient(clientList, bench);
+            
+            if(displayChoice == 1) {
+                dm.displayOpenCentres(centreList);
+                dm.numberOfFullCentres(centreList);
+                dm.numberOfClosedCentres(closedCentres);
+                dm.numberOnTraining(centreList);
+                dm.numberWaiting(waitingList);
+                dm.displayClients(clientList, closedClients);
+                System.out.println("================Next Month=================");
+                System.out.println("===========================================");
             }
 
 
 
 
-            System.out.println("Waiting list:");
-            System.out.println(waitingList);
-            System.out.println("Waiting list size: " + waitingList.size());
-            System.out.println("\nList of open centres:");
-            System.out.println(centreList);
-            System.out.println("There are currently: " + centreList.size() +  " centres open");
-            System.out.println("\nList of closed centres:");
-            System.out.println(closedCentres);
-            System.out.println("There are currently: " + closedCentres.size() +  " centres closed");
-            System.out.println(clientList);
-            System.out.println("There are currently: " + clientList.size() +  " clients open");
-            System.out.println(closedClients);
-            System.out.println("There are currently: " + closedClients.size() +  " clients removed");
-            System.out.println("====================================================================");
+
+
+            
+            
+            
+//
+//            System.out.println(bench);
+//            System.out.println(bench.size());
+//            //System.out.println(traineesInTraining.get(0));
+//
+//            // PRINTING OUT STUFF
+//            for (int m = 0; m < centreList.size(); m++) {
+//                System.out.println(centreList.get(m).getCentreID() +
+//                        " Java: " + centreList.get(m).getJavaCount() +
+//                        " C#: " + centreList.get(m).getCsharpCount() +
+//                        " Data: " + centreList.get(m).getDataCount() +
+//                        " DevOps: " + centreList.get(m).getDevopsCount() +
+//                        " Business: " + centreList.get(m).getBusinessCount() +
+//                        " Total: " + centreList.get(m).getTotal());
+//            }
+//
+//
+//
+//
+//            System.out.println("Waiting list:");
+//            System.out.println(waitingList);
+//            System.out.println("Waiting list size: " + waitingList.size());
+//            System.out.println("\nList of open centres:");
+//            System.out.println(centreList);
+//            System.out.println("There are currently: " + centreList.size() +  " centres open");
+//            System.out.println("\nList of closed centres:");
+//            System.out.println(closedCentres);
+//            System.out.println("There are currently: " + closedCentres.size() +  " centres closed");
+//            System.out.println(clientList);
+//            System.out.println("There are currently: " + clientList.size() +  " clients open");
+//            System.out.println(closedClients);
+//            System.out.println("There are currently: " + closedClients.size() +  " clients removed");
+//            System.out.println("====================================================================");
 
 
 
@@ -223,7 +189,18 @@ public class SimulationController {
 
         }
 
+        if(displayChoice == 2) {
+            dm.displayOpenCentres(centreList);
+//            dm.numberOfFullCentres(centreList);
+            System.out.println("There are no full centres");
+            System.out.println("===========================================");
+            dm.numberOfClosedCentres(closedCentres);
+            dm.numberOnTraining(centreList);
+            dm.numberWaiting(waitingList);
+            dm.displayClients(clientList, closedClients);
+        }
 
+//        System.out.println("done");
 //        System.out.println(bench);
 //        //System.out.println(traineesInTraining.get(0));
 //
