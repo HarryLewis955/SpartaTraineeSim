@@ -1,4 +1,4 @@
-package com.sparta.simulation.traineecontrollertest;
+package com.sparta.simulation.test.traineecontrollertest;
 
 import com.sparta.simulation.TraineeController;
 import org.junit.jupiter.api.Assertions;

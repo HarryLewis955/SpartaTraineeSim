@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-public class CentreControllerCheckAttendTest {
+public class CheckAttendTest {
 
     ArrayList<Centre> centreArrayList;
     ArrayList<Integer> removedCentreArrayList;

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CentreControllerCloseCentreTest {
+public class CloseCentreTest {
 
     List<Integer> temporaryList;
     ArrayList<Integer> centresToClose;
