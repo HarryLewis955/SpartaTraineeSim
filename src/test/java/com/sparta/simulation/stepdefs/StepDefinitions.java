@@ -12,30 +12,13 @@ import io.cucumber.java.en.When;
 import org.junit.jupiter.api.Assertions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 public class StepDefinitions {
 
-    public int generateRandom(int start, int end, List<Integer> exclude) {
-        Random r = new Random();
-        int range = end - start + 1 - exclude.size();
-        int random = r.nextInt(range) + 1;
-
-        for (int i = 0; i < exclude.size(); i++) {
-            if (exclude.get(i) > random) {
-                return random;
-            }
-            random++;
-        }
-
-        return random;
-    }
-
     CentreController centreController;
-    List<Integer> excludeBootcamp = new ArrayList<>(List.of(2));
-    List<Integer> excludeTechCentre = new ArrayList<>(List.of(3));
-    List<Integer> excludeTrainingHub = new ArrayList<>(List.of(1));
     Centre centre;
     ArrayList<Centre> centreList;
     int centreCapacity;
@@ -62,6 +45,8 @@ public class StepDefinitions {
 
     int currentMonth = 0;
 
+    boolean isCentreOpened = false;
+
     @Before
     public void setUp() {
         centreController = new CentreController();
@@ -74,6 +59,7 @@ public class StepDefinitions {
         centre = null;
         centreList = null;
         waitingList = null;
+        traineesInTraining = null;
     }
 
 
@@ -86,36 +72,17 @@ public class StepDefinitions {
     @When("the program is generating {int} trainees in this month")
     public void theProgramIsGeneratingTraineesInThisMonth(int numberOfTrainees) {
 
-        TraineeController.createTrainee(numberOfTrainees, 0, 0, 0, 0, 0, waitingList);
+        monthlyTrainees = TraineeController.createTrainee(numberOfTrainees, 0, 0, 0, 0, 0, waitingList);
         int i = 0;
         for (int java : waitingList) {
             if (java == 1) {
                 i++;
             }
         }
+        System.out.println("Arrays.toString(trainee) = " + Arrays.toString(monthlyTrainees));
         currentMonth++;
         System.out.println("currentMonth = " + currentMonth);
         System.out.println("waitingList.size() = " + waitingList.size());
-    }
-
-    @When("no bootcamp opened")
-    public void noBootcampOpened() {
-//        Random r = new Random();
-//        Integer centreType = generateRandom(1, 3, excludeBootcamp);
-//        centreCapacity = r.nextInt(0, 51);
-//        centre = new Centre(1, centreCapacity, centreType, 0);
-        //    c.centreCapacity(centreList,centreCapacity);
-        //   centreList.get(0).setCentreType();
-    }
-
-    @When("no tech centre opened")
-    public void noTechCentreOpened() {
-        centre = new Centre(1, 0, generateRandom(1, 3, excludeTechCentre)
-                , 0);
-
-        if (centre.getCentreType() == 3) {
-            centre.setCentreType(2);
-        }
     }
 
     @Then("maximum {int} training hubs should be opened")
@@ -134,140 +101,100 @@ public class StepDefinitions {
         }
     }
 
-    @When("{int} training hub opened")
-    public void trainingHubOpened(int arg0) {
-        centreController.createCentre(centreList, centreCapacity, centre.getCentreType()
-                , 0, arg0, 0);
-    }
-
-    @Then("no training hub opened")
-    public void noTrainingHubOpened() {
-        centre = new Centre(1, 0, generateRandom(1, 3, excludeTrainingHub)
-                , 0);
-    }
-
     @Then("simulation should be ended")
     public void simulationShouldBeEnded() {
-    }
-
-    @Then("training hub {int} is full of {int} trainees")
-    public void trainingHubIsFullOfTrainees(int arg0, int arg1) {
-        Assertions.assertTrue(centreList.get(arg0).getCentreCapacity() == 100);
-        Assertions.assertEquals(arg1, centreList.get(arg0).getBusinessCount() + centreList.get(arg0).getCsharpCount() +
-                centreList.get(arg0).getDataCount() + centreList.get(arg0).getDevopsCount() +
-                centreList.get(arg0).getJavaCount());
-    }
-
-    @When("the program is generating {int} of trainees in this month")
-    public void theProgramIsGeneratingOfTraineesInThisMonth(int arg0) {
-    }
-
-    @Then("{int} bootcamp should be opened")
-    public void bootcampShouldBeOpened(int arg0) {
-        bootCampCount++;
-        centreController.createCentre(centreList, 20, 2, 0, 0, 0);
-    }
-
-    @Then("training hub {int} takes new {int} trainees")
-    public void trainingHubTakesNewTrainees(int arg0, int arg1) {
-        System.out.println("waitingList.size() before = " + waitingList.size());
-        centreController.addToCentre(waitingList, centreList, waitingList.size(), monthlyTrainees,traineesInTraining,0);
-        System.out.println("waitingList.size() = " + waitingList.size());
-        //   c.addCentreOneTwo(centreList,waitingList,0);
-        System.out.println(centreList.size() + "size");
-        System.out.println(centreList.toString());
-        System.out.println("This one" + centreList.get(arg0).getCentreCapacity());
-
-        System.out.println(centreList.get(arg0).getJavaCount());
-        Assertions.assertEquals(arg1, centreList.get(arg0).getBusinessCount() + centreList.get(arg0).getCsharpCount() +
-                centreList.get(arg0).getDataCount() + centreList.get(arg0).getDevopsCount() +
-                centreList.get(arg0).getJavaCount());
-    }
-
-    @When("bootcamp {int} takes {int} new trainees")
-    public void bootcampTakesNewTrainees(int arg0, int arg1) {
-        centreController.centreCapacity(centreList, arg1);
-        centreController.addToCentre(waitingList, centreList, waitingList.size(),monthlyTrainees,traineesInTraining,0);
-        System.out.println("waitingList.size() after adding to centre = " + waitingList.size());
-    }
-
-    @When("{int} bootcamp should be opened and takes {int} new trainees")
-    public void bootcampOpenedAndTakesNewTrainees(int arg0, int numberOfNewTrainees) {
-        centreController.createCentre(centreList, numberOfNewTrainees, 2, 1, 0, 0);
-        centreController.addToCentre(waitingList, centreList, waitingList.size(),
-                monthlyTrainees,traineesInTraining,0);
+        System.out.println("Simulation should be ended");
     }
 
     @Then("{int} trainees should be in waiting list")
-    public void traineesShouldBeInWaitingList(int arg0) {
-        Assertions.assertEquals(arg0, waitingList.size());
-    }
-
-    @When("{int} training hub should be opened and takes {int} new trainees")
-    public void training_hub_should_be_opened_and_takes_new_trainees(Integer int1, Integer int2) {
-        centreController.createCentre(centreList, int2, 1, 1, 1, 0);
-        centreController.addToCentre(waitingList, centreList, waitingList.size(),monthlyTrainees,
-                traineesInTraining,0);
-    }
-
-    @When("{int} tech centre should be opened and takes new trainees")
-    public void tech_centre_should_be_opened_and_takes_new_trainees(Integer int1) {
-
+    public void traineesShouldBeInWaitingList(int traineesInWaitingList) {
+        Assertions.assertEquals(traineesInWaitingList, waitingList.size());
     }
 
     @Then("only one type trainee should be in tech centre")
     public void only_one_type_trainee_should_be_in_tech_centre() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
-
-    @Then("only this type of trainee should be decreased in waiting list")
-    public void only_this_type_of_trainee_should_be_decreased_in_waiting_list() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
-
-    @Then("no centre opened")
-    public void no_centre_opened() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
-
-    @Then("bootcamp should not be opened")
-    public void bootcampShouldNotBeOpened() {
-        int numberOfBootcamp = centreController.bootcampCheck(centreList, 0);
-        CentreController.centerTypeGen(numberOfBootcamp, 2);
-        Assertions.assertTrue(centreController.bootcampCheck(centreList, 0) == numberOfBootcamp);
+        for(Centre centre : centreList){
+            if(centre.getCentreType() == 3){
+                if(centre.getJavaCount() != 0){
+                    Assertions.assertEquals(0, centre.getBusinessCount());
+                    Assertions.assertEquals(0, centre.getCsharpCount());
+                    Assertions.assertEquals(0, centre.getDataCount());
+                    Assertions.assertEquals(0, centre.getDevopsCount());
+                }else if (centre.getDevopsCount() != 0){
+                    Assertions.assertEquals(0, centre.getBusinessCount());
+                    Assertions.assertEquals(0, centre.getCsharpCount());
+                    Assertions.assertEquals(0, centre.getDataCount());
+                    Assertions.assertEquals(0, centre.getJavaCount());
+                }else if (centre.getDataCount() != 0){
+                    Assertions.assertEquals(0, centre.getBusinessCount());
+                    Assertions.assertEquals(0, centre.getCsharpCount());
+                    Assertions.assertEquals(0, centre.getDevopsCount());
+                    Assertions.assertEquals(0, centre.getJavaCount());
+                }else if (centre.getCsharpCount() != 0){
+                    Assertions.assertEquals(0, centre.getBusinessCount());
+                    Assertions.assertEquals(0, centre.getDataCount());
+                    Assertions.assertEquals(0, centre.getDevopsCount());
+                    Assertions.assertEquals(0, centre.getJavaCount());
+                }else if(centre.getBusinessCount() != 0){
+                    Assertions.assertEquals(0, centre.getCsharpCount());
+                    Assertions.assertEquals(0, centre.getDataCount());
+                    Assertions.assertEquals(0, centre.getDevopsCount());
+                    Assertions.assertEquals(0, centre.getJavaCount());
+                }
+            }
+        }
     }
 
     @Then("{int} centre type {int} should be opened in month {int}")
     public void centreTypeShouldBeOpenedInMonth(int numberOfCentre, int centreNo, int currentMonth) {
+
+        if (isCentreOpened && numberOfCentre > 0) {
+            if (currentMonth % 2 == 0) {
+                Assertions.fail("You can't open more than one time in a month");
+            }
+        }
         // get number of open centres number before adding new centres
         int numberOfCentersOpenedBefore = centreList.size();
-        if (centreNo == 2) {
-            bootCampCount++;
-        }
 
         int numberOfCentersOpened = 0;
         if (currentMonth % 2 == 0) {
             numberOfCentersOpened = centreController.createCentre(centreList,
                     20, centreNo, 0, numberOfCentre, 0);
+            isCentreOpened = true;
+            // get number of open centres number after adding new centres
+            int numberOfOpenCentresAfter = centreList.size();
+
+            if (centreNo == 2 || centreNo == 3) {
+                Assertions.assertTrue(numberOfCentersOpened == 1);
+                Assertions.assertTrue(numberOfOpenCentresAfter - numberOfCentersOpenedBefore == 1);
+            } else if (centreNo == 1) {
+                Assertions.assertTrue(numberOfCentersOpened == numberOfCentre);
+                Assertions.assertTrue(numberOfOpenCentresAfter - numberOfCentersOpenedBefore <= 3);
+            } else {
+                Assertions.fail("Not acceptable centre no");
+            }
         } else {
-            Assertions.fail("You can't open a centre in odd months.");
-        }
-        // get number of open centres number after adding new centres
-        int numberOfOpenCentresAfter = centreList.size();
-
-        if (centreNo == 2 || centreNo == 3) {
-            Assertions.assertTrue(numberOfCentersOpened == 1);
-            Assertions.assertTrue(numberOfOpenCentresAfter-numberOfCentersOpenedBefore==1);
-        } else if (centreNo == 1) {
-            Assertions.assertTrue(numberOfCentersOpened == numberOfCentre);
-            Assertions.assertTrue(numberOfOpenCentresAfter-numberOfCentersOpenedBefore<=3);
-        } else {
-            Assertions.fail("Not acceptable centre no");
+            isCentreOpened = false;
+            if (numberOfCentre != 0) {
+                Assertions.fail("You can't open a centre in odd months.");
+            }
         }
 
+    }
 
+    @Then("new bootcamp should not be opened")
+    public void newBootcampShouldNotBeOpened() {
+        int sizeOld = centreList.size();
+        CentreController.centerTypeGen(centreController.bootcampCheck(centreList, bootCampCount), 2);
+        int sizeNew = centreList.size();
+        Assertions.assertTrue(sizeNew == sizeOld);
+    }
+
+    @When("centres take {int} new trainees")
+    public void centresTakeNewTrainees(int numberOfTrainees) {
+        centreController.centreCapacity(centreList, numberOfTrainees);
+        System.out.println("waitingList.size() = " + waitingList.size());
+        centreController.addToCentre(waitingList, centreList, numberOfTrainees, monthlyTrainees, traineesInTraining, 0);
+        System.out.println("waitingList.size() after adding to centre = " + waitingList.size());
     }
 }
