@@ -1,9 +1,13 @@
 package com.sparta.simulation;
 import java.util.ArrayList;
 import java.util.Random;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class TraineeController {
+    public static Logger logger = LogManager.getLogger("Controller - Trainee Controller");
     public static int[] createTrainee(int newTrainees, int javaCount, int csharpCount, int dataCount, int devopsCount, int businessCount,ArrayList<Integer> waitingList){
+   logger.info("Create new Trainees");
     //public static void createTrainee(int newTrainees, int javaCount, int csharpCount, int dataCount, int devopsCount, int businessCount,ArrayList<Integer> waitingList){
         Random r = new Random();
         for(int j = 0; j < newTrainees; j++){
@@ -23,7 +27,9 @@ public class TraineeController {
                 System.out.println("error - Trainee creation");
             }
         }
+        logger.info("Return Trainee Counts");
         return new int[] {javaCount, csharpCount, dataCount, devopsCount, businessCount};
+
     }
 
     public static void removeFromCentreAddToBench(ArrayList<int[]> traineesInTraining, ArrayList<Integer> bench, ArrayList<Centre> centreList){
