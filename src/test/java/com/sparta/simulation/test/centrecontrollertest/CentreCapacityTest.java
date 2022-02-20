@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-public class CentreControllerCentreCapacityTest {
+public class CentreCapacityTest {
 
     int centreCapacity;
     int centreOpenTimes;

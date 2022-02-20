@@ -1,18 +1,16 @@
-package com.sparta.simulation.traineecontrollertest;
+package com.sparta.simulation.test.traineecontrollertest;
 
 import com.sparta.simulation.TraineeController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class TraineeControllerTest {
+public class CreateTraineeTest {
     ArrayList<Integer> waitingList;
     Random r = new Random();
     int newTrainees;

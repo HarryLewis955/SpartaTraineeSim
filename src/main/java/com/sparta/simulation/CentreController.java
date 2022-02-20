@@ -1,13 +1,16 @@
 package com.sparta.simulation;
 
 import io.cucumber.java.sl.In;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.util.*;
 
 public class CentreController {
+    public static Logger logger = LogManager.getLogger("Controller - Centre Controller");
 
     // Increase capacities up to their max
     public void centreCapacity(ArrayList<Centre> centreList, int centreCapacity){
+        logger.info("get max capacity for eah type of centre");
         for (int j = 0; j < centreList.size(); j++) {
             centreList.get(j).setCentreCapacity(centreList.get(j).getCentreCapacity() + centreCapacity);
             if(centreList.get(j).getCentreType() == 1){
@@ -28,8 +31,9 @@ public class CentreController {
         }
     }
 
-    // check how many bootcamps there are
+    // check how many boot-camps there are
     public int bootcampCheck(ArrayList<Centre> centreList, int bootCampCount){
+        logger.info("check number of centre type 2(Boot-camp)");
         for (int j = 0; j < centreList.size(); j++) {
             if(centreList.get(j).getCentreType() == 2){
                 bootCampCount++;
@@ -55,6 +59,7 @@ public class CentreController {
     // create centre
     public int createCentre(ArrayList<Centre> centreList, int centreCapacity, int centreType, int idCount, int numberOfTrainingHub, int techCentreStream){
         Random r = new Random();
+        logger.info("get type of centre to be created");
         if(centreType == 1) {
 //            int numberOfHub = r.nextInt(1, 4);
             for (int j = 0; j < numberOfTrainingHub; j++) {
@@ -118,9 +123,10 @@ public class CentreController {
     }
 
 
-// add to centres 1 & 2
+// add to centre's 1 & 2
     public void addCentreOneTwo(ArrayList<Centre> centreList, ArrayList<Integer> waitingList, int l, int[] monthlyTrainees, ArrayList<int[]> traineesInTraining, int i){
         int traineeType = waitingList.get(0);
+        logger.info("add counts to centre list - centre's 1 and 2");
         if(traineeType == 1){
             centreList.get(l).setJavaCount(centreList.get(l).getJavaCount() + 1);
         } else if (traineeType == 2){
@@ -143,7 +149,7 @@ public class CentreController {
 
 // add to centre 3
     public void addToCentre3(ArrayList<Integer> waitingList, ArrayList<Centre> centreList, int l, int[] monthlyTrainees, ArrayList<int[]> traineesInTraining, int i){
-
+        logger.info("add counts to centre type 3");
         int traineeType = waitingList.get(0);
         if(traineeType == 1 && centreList.get(l).getStream() == 1){
             centreList.get(l).setJavaCount(centreList.get(l).getJavaCount() + 1);
@@ -202,6 +208,7 @@ public class CentreController {
                 Collections.rotate(waitingList, 1);
             }
             centreList.remove(k);
+            logger.info("close low use centre's");
         }
     }
 
