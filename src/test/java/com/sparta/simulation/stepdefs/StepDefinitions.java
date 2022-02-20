@@ -1,9 +1,6 @@
 package com.sparta.simulation.stepdefs;
 
-import com.sparta.simulation.Centre;
-import com.sparta.simulation.CentreController;
-import com.sparta.simulation.Client;
-import com.sparta.simulation.TraineeController;
+import com.sparta.simulation.*;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
@@ -16,6 +13,7 @@ import java.util.*;
 public class StepDefinitions {
 
     CentreController centreController;
+    ClientController clientController;
     Centre centre;
     ArrayList<Centre> centreList;
     int centreCapacity;
@@ -26,7 +24,7 @@ public class StepDefinitions {
     ArrayList<Integer> centresToClose = new ArrayList<>();
     List<Integer> temporaryList = new ArrayList<>();
     List<Client> clientList = new ArrayList<>();
-    List<Integer> bench = new ArrayList<>();
+    ArrayList<Integer> bench = new ArrayList<>();
     ArrayList<int[]> traineesInTraining = new ArrayList<>();
     List<Client> closedClients = new ArrayList<>();
     int[] monthlyTrainees = new int[6];
@@ -69,7 +67,7 @@ public class StepDefinitions {
     @When("the program is generating {int} trainees in this month")
     public void theProgramIsGeneratingTraineesInThisMonth(int numberOfTrainees) {
 
-        monthlyTrainees = TraineeController.createTrainee(numberOfTrainees, 0, 0, 0, 0, 0, waitingList);
+        monthlyTrainees = TraineeController.createTrainee(numberOfTrainees, javaCount, csharpCount, dataCount, devopsCount, businessCount, waitingList);
         int i = 0;
         for (int java : waitingList) {
             if (java == 1) {
@@ -77,6 +75,7 @@ public class StepDefinitions {
             }
         }
         System.out.println("Arrays.toString(trainee) = " + Arrays.toString(monthlyTrainees));
+        traineesInTraining.add(monthlyTrainees);
         currentMonth++;
         System.out.println("currentMonth = " + currentMonth);
         System.out.println("waitingList.size() = " + waitingList.size());
@@ -176,7 +175,7 @@ public class StepDefinitions {
                 Assertions.fail("You can't open a centre in odd months.");
             }
         }
-
+        System.out.println("centreList.size() = " + centreList.size());
     }
 
     @Then("new bootcamp should not be opened")
