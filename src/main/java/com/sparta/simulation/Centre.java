@@ -1,4 +1,5 @@
 package com.sparta.simulation;
+
 public class Centre {
 
     private Integer centreID;

@@ -1,5 +1,7 @@
 package com.sparta.simulation;
 import com.sparta.simulation.view.DisplayManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import io.cucumber.java.bs.A;
 
 import java.util.*;
@@ -7,11 +9,14 @@ import java.util.stream.Collectors;
 
 public class SimulationController {
     public static void main(String[] args) {
+        Logger logger = LogManager.getLogger("Controller - Main Controller");
+        logger.info("call user input");
         DisplayManager dm = new DisplayManager();
         int months = dm.getNumberOfMonths();// user defines this
         int displayChoice = dm.choiceOfDisplay();
 
         // Initializing the lists to be used
+        logger.info("create all lists needed");
         ArrayList<Integer> waitingList = new ArrayList<>();
         List<Integer> listWithoutDuplicates = new ArrayList<>();
         List<Integer> descendingBench = new ArrayList<>();
@@ -28,6 +33,7 @@ public class SimulationController {
 
 
         // Initializing counting variables
+        logger.info("create all counts needed");
         int javaCount = 0;
         int csharpCount = 0;
         int dataCount = 0;
@@ -39,6 +45,7 @@ public class SimulationController {
 
         // Each iteration of the loop represents 1 month of time
         for (int i = 0; i < months; i++) {
+            logger.info("create all random numbers needed");
             int[] monthlyTrainees = new int[6];
             // Creating random numbers for this month
             int numberOfTrainingHub = r.nextInt(1, 4); //only for centre type 1
@@ -57,12 +64,12 @@ public class SimulationController {
 
             // From the new trainees this month, assign each a stream and add to the waiting list, return new row to represent trainees for that month
             int[] monthlyCount = TraineeController.createTrainee(newTrainees, javaCount, csharpCount, dataCount, devopsCount, businessCount, waitingList);
-
+            logger.info("get trainee counts");
 
             // Increase number of trainees each centre takes for this month (random for each centre between 0-50)
             CentreController centreControl = new CentreController();
             centreControl.centreCapacity(centreList, centreCapacity);
-
+            logger.info("create centers");
             // Every two months create a new centre
             if (i%2 == 0){
                 // Check how many boot-camps there are in the centre list
@@ -114,6 +121,7 @@ public class SimulationController {
 
 
             // create a client 50% chance each month and give it a random requirement and stream
+            logger.info("create client");
             boolean clientToBeMade = r.nextBoolean();
             if (clientToBeMade && i > 12){
                 Client client = new Client(clientIdCount, clientStream, clientRequirement, clientMonthlyTrainees);
@@ -126,7 +134,8 @@ public class SimulationController {
 
 //            // loop through clients and give them the correct trainees from the bench
             c.addToClient(clientList, bench);
-            
+
+            logger.info("output display");
             if(displayChoice == 1) {
                 dm.displayOpenCentres(centreList);
                 dm.numberOfFullCentres(centreList);
