@@ -1,12 +1,19 @@
 package com.sparta.simulation;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ClientController {
+    public static Logger logger = LogManager.getLogger("Controller - Client Controller");
 
     public void addToClient(ArrayList<Client> clientList, ArrayList<Integer> bench){
         // loop through clients and give them the correct trainees from the bench
+        logger.info("add trainees to clients");
         for (int j = 0; j < clientList.size(); j++) {
             int needed = clientList.get(j).getDifference();
             int streamNeeded = clientList.get(j).getTraineeType();
