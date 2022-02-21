@@ -19,8 +19,6 @@ Feature: Training Centre
     Given user enters 1 to start simulation
     When the program is generating 70 trainees in this month
     When 1 centre type 2 should be opened in month 0
-    Then 0 centre type 1 should be opened in month 0
-    Then 0 centre type 3 should be opened in month 0
     Then centres take 50 new trainees
     Then 20 trainees should be in waiting list
     Then simulation should be ended

@@ -1,7 +1,7 @@
 package com.sparta.simulation.test.clientcontrollertest;
 
-import com.sparta.simulation.Client;
-import com.sparta.simulation.ClientController;
+import com.sparta.simulation.model.Client;
+import com.sparta.simulation.model.ClientModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class AddToCounterTest {
     ArrayList<Client> clientList;
     ArrayList<Client> closedClients;
-    ClientController clientController;
+    ClientModel clientModel;
     int clientIdCount;
     ArrayList<Integer> bench;
 
@@ -20,7 +20,7 @@ public class AddToCounterTest {
     void setUp() {
         clientList = new ArrayList<>();
         closedClients = new ArrayList<>();
-        clientController = new ClientController();
+        clientModel = new ClientModel();
         clientIdCount = 0;
         bench = new ArrayList<>();
     }
@@ -37,10 +37,10 @@ public class AddToCounterTest {
         Client client = new Client(clientIdCount, 1, 5, 5);
         clientIdCount++;
         clientList.add(client);
-        clientController.addToClient(clientList, bench);
+        clientModel.addToClient(clientList, bench);
 
         for(int i = 0; i<12;i++) {
-            clientController.addToCounter(clientList, closedClients);
+            clientModel.addToCounter(clientList, closedClients);
         }
         Assertions.assertEquals(0, clientList.size());
     }
@@ -57,10 +57,10 @@ public class AddToCounterTest {
         Client client = new Client(clientIdCount, 1, 5, 5);
         clientIdCount++;
         clientList.add(client);
-        clientController.addToClient(clientList, bench);
+        clientModel.addToClient(clientList, bench);
 
         for(int i = 0; i<11;i++) {
-            clientController.addToCounter(clientList, closedClients);
+            clientModel.addToCounter(clientList, closedClients);
         }
         Assertions.assertEquals(1, clientList.size());
     }
@@ -78,10 +78,10 @@ public class AddToCounterTest {
         Client client = new Client(clientIdCount, 1, 5, 5);
         clientIdCount++;
         clientList.add(client);
-        clientController.addToClient(clientList, bench);
+        clientModel.addToClient(clientList, bench);
 
         for(int i = 0; i<12;i++) {
-            clientController.addToCounter(clientList, closedClients);
+            clientModel.addToCounter(clientList, closedClients);
         }
         Assertions.assertEquals(1, clientList.size());
         Assertions.assertEquals(true,clientList.get(0).isHappy());
@@ -107,10 +107,10 @@ public class AddToCounterTest {
 
         Assertions.assertEquals(2, clientList.size());
 
-        clientController.addToClient(clientList, bench);
+        clientModel.addToClient(clientList, bench);
 
         for(int i = 0; i<12;i++) {
-            clientController.addToCounter(clientList, closedClients);
+            clientModel.addToCounter(clientList, closedClients);
         }
 
         Assertions.assertEquals(1, clientList.size());
@@ -136,10 +136,10 @@ public class AddToCounterTest {
 
         Assertions.assertEquals(2, clientList.size());
 
-        clientController.addToClient(clientList, bench);
+        clientModel.addToClient(clientList, bench);
 
         for(int i = 0; i<11;i++) {
-            clientController.addToCounter(clientList, closedClients);
+            clientModel.addToCounter(clientList, closedClients);
         }
 
         Assertions.assertEquals(2, clientList.size());

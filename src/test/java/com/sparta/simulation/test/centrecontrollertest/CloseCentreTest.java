@@ -1,7 +1,7 @@
 package com.sparta.simulation.test.centrecontrollertest;
 
-import com.sparta.simulation.Centre;
-import com.sparta.simulation.CentreController;
+import com.sparta.simulation.model.Centre;
+import com.sparta.simulation.model.CentreModel;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class CloseCentreTest {
     ArrayList<Centre> centreArrayList;
     ArrayList<Integer> waitingList;
     ArrayList<Centre> closedCentres;
-    CentreController centreController;
+    CentreModel centreModel;
 
     @BeforeEach
     void setUp() {
@@ -25,7 +25,7 @@ public class CloseCentreTest {
         centreArrayList = new ArrayList<>();
         waitingList = new ArrayList<>();
         closedCentres = new ArrayList<>();
-        centreController = new CentreController();
+        centreModel = new CentreModel();
     }
 
     @Test
@@ -47,13 +47,13 @@ public class CloseCentreTest {
 
         int month = 3;
         for (int i = 0; i<month;i++) {
-            CentreController.checkAttend(centreArrayList, centresToClose);
+            CentreModel.checkAttend(centreArrayList, centresToClose);
         }
         temporaryList = centresToClose.stream().distinct().toList();
 
         new LinkedList<>(temporaryList).descendingIterator().forEachRemaining(listWithoutDuplicates :: add);
 
-        centreController.closeCentre(listWithoutDuplicates, centreArrayList, closedCentres, waitingList);
+        centreModel.closeCentre(listWithoutDuplicates, centreArrayList, closedCentres, waitingList);
 
         Assertions.assertEquals(48, waitingList.size());                                                //24 + 24 student should return to waiting list
 
@@ -79,13 +79,13 @@ public class CloseCentreTest {
 
         int month = 3;
         for (int i = 0; i<month;i++) {
-            CentreController.checkAttend(centreArrayList, centresToClose);
+            CentreModel.checkAttend(centreArrayList, centresToClose);
         }
         temporaryList = centresToClose.stream().distinct().toList();
 
         new LinkedList<>(temporaryList).descendingIterator().forEachRemaining(listWithoutDuplicates :: add);
 
-        centreController.closeCentre(listWithoutDuplicates, centreArrayList, closedCentres, waitingList);
+        centreModel.closeCentre(listWithoutDuplicates, centreArrayList, closedCentres, waitingList);
 
         Assertions.assertEquals(20, waitingList.size());
         for (int i=0;i<waitingList.size();i++){
@@ -129,13 +129,13 @@ public class CloseCentreTest {
 
         int month = 3;
         for (int i = 0; i<month;i++) {
-            CentreController.checkAttend(centreArrayList, centresToClose);
+            CentreModel.checkAttend(centreArrayList, centresToClose);
         }
         temporaryList = centresToClose.stream().distinct().toList();
 
         new LinkedList<>(temporaryList).descendingIterator().forEachRemaining(listWithoutDuplicates :: add);
 
-        centreController.closeCentre(listWithoutDuplicates, centreArrayList, closedCentres, waitingList);
+        centreModel.closeCentre(listWithoutDuplicates, centreArrayList, closedCentres, waitingList);
 
         Assertions.assertEquals(20, waitingList.size());
         for (int i=0;i<waitingList.size();i++){

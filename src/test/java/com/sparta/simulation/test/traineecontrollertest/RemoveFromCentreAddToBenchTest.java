@@ -1,8 +1,8 @@
 package com.sparta.simulation.test.traineecontrollertest;
 
-import com.sparta.simulation.Centre;
-import com.sparta.simulation.CentreController;
-import com.sparta.simulation.TraineeController;
+import com.sparta.simulation.model.Centre;
+import com.sparta.simulation.model.CentreModel;
+import com.sparta.simulation.model.TraineeModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 public class RemoveFromCentreAddToBenchTest {
-    CentreController centreController;
+    CentreModel centreModel;
     ArrayList<int[]> traineesInTraining;
     int[] monthlyTrainees;
 
@@ -31,11 +31,11 @@ public class RemoveFromCentreAddToBenchTest {
 
     @BeforeEach
     void setUp() {
-        centreController = new CentreController();
+        centreModel = new CentreModel();
         traineesInTraining = new ArrayList<>();
         monthlyTrainees = new int[6];
 
-        centreController = new CentreController();
+        centreModel = new CentreModel();
         javaCount = 0;
         csharpCount = 0;
         dataCount = 0;
@@ -58,15 +58,15 @@ public class RemoveFromCentreAddToBenchTest {
     public void expectAll5TraineeInTheCentreGoToTheBenchAfter3Month() {
 
         newTrainees = 5;
-        int[] monthlyCount = TraineeController.createTrainee(newTrainees, javaCount,csharpCount,dataCount,devopsCount,businessCount,waitingList);
+        TraineeModel.createTraineeAddToWaitingList(newTrainees,waitingList);
 
-        centreController.createCentre(centreList, 5, 2,idCount,0,0);
-        centreController.addToCentre(waitingList, centreList, waitingList.size(),monthlyTrainees,traineesInTraining,month);
+        centreModel.createCentre(centreList, 5, 2,idCount,0,0);
+        centreModel.addToCentre(waitingList, centreList, waitingList.size(),monthlyTrainees);
         traineesInTraining.add(monthlyTrainees);
 
         month = 4;
         for(int i = 0; i < month; i++){
-            TraineeController.removeFromCentreAddToBench(traineesInTraining, bench, centreList);
+            TraineeModel.removeFromCentreAddToBench(traineesInTraining, bench, centreList);
         }
 
         Assertions.assertEquals(newTrainees, bench.size());
@@ -77,17 +77,17 @@ public class RemoveFromCentreAddToBenchTest {
     public void expectAll10TraineeIn2CentreGoToTheBenchAfter3Month() {
 
         newTrainees = 10;
-        int[] monthlyCount = TraineeController.createTrainee(newTrainees, javaCount,csharpCount,dataCount,devopsCount,businessCount,waitingList);
+        TraineeModel.createTraineeAddToWaitingList(newTrainees,waitingList);
 
-        centreController.createCentre(centreList, 5, 2,idCount,0,0);
-        centreController.createCentre(centreList, 5, 2,idCount,0,0);
+        centreModel.createCentre(centreList, 5, 2,idCount,0,0);
+        centreModel.createCentre(centreList, 5, 2,idCount,0,0);
 
-        centreController.addToCentre(waitingList, centreList, waitingList.size(),monthlyTrainees,traineesInTraining,month);
+        centreModel.addToCentre(waitingList, centreList, waitingList.size(),monthlyTrainees);
         traineesInTraining.add(monthlyTrainees);
 
         month = 4;
         for(int i = 0; i < month; i++){
-            TraineeController.removeFromCentreAddToBench(traineesInTraining, bench, centreList);
+            TraineeModel.removeFromCentreAddToBench(traineesInTraining, bench, centreList);
         }
 
         Assertions.assertEquals(newTrainees, bench.size());
@@ -98,17 +98,17 @@ public class RemoveFromCentreAddToBenchTest {
     public void expectAll10TraineeIn2DifferentCentreGoToTheBenchAfter3Month() {
 
         newTrainees = 10;
-        int[] monthlyCount = TraineeController.createTrainee(newTrainees, javaCount,csharpCount,dataCount,devopsCount,businessCount,waitingList);
+        TraineeModel.createTraineeAddToWaitingList(newTrainees, waitingList);
 
-        centreController.createCentre(centreList, 5, 2,idCount,0,0);
-        centreController.createCentre(centreList, 5, 1,idCount,1,0);
+        centreModel.createCentre(centreList, 5, 2,idCount,0,0);
+        centreModel.createCentre(centreList, 5, 1,idCount,1,0);
 
-        centreController.addToCentre(waitingList, centreList, waitingList.size(),monthlyTrainees,traineesInTraining,month);
+        centreModel.addToCentre(waitingList, centreList, waitingList.size(),monthlyTrainees);
         traineesInTraining.add(monthlyTrainees);
 
         month = 4;
         for(int i = 0; i < month; i++){
-            TraineeController.removeFromCentreAddToBench(traineesInTraining, bench, centreList);
+            TraineeModel.removeFromCentreAddToBench(traineesInTraining, bench, centreList);
         }
 
         Assertions.assertEquals(newTrainees, bench.size());
@@ -119,17 +119,17 @@ public class RemoveFromCentreAddToBenchTest {
     public void expectAll10TraineeIn2DifferentCentreStayInTheCentreOn3rdMonth() {
 
         newTrainees = 10;
-        int[] monthlyCount = TraineeController.createTrainee(newTrainees, javaCount,csharpCount,dataCount,devopsCount,businessCount,waitingList);
+        TraineeModel.createTraineeAddToWaitingList(newTrainees, waitingList);
 
-        centreController.createCentre(centreList, 5, 2,idCount,0,0);
-        centreController.createCentre(centreList, 5, 1,idCount,1,0);
+        centreModel.createCentre(centreList, 5, 2,idCount,0,0);
+        centreModel.createCentre(centreList, 5, 1,idCount,1,0);
 
-        centreController.addToCentre(waitingList, centreList, waitingList.size(),monthlyTrainees,traineesInTraining,month);
+        centreModel.addToCentre(waitingList, centreList, waitingList.size(),monthlyTrainees);
         traineesInTraining.add(monthlyTrainees);
 
         month = 3;
         for(int i = 0; i < month; i++){
-            TraineeController.removeFromCentreAddToBench(traineesInTraining, bench, centreList);
+            TraineeModel.removeFromCentreAddToBench(traineesInTraining, bench, centreList);
         }
 
         Assertions.assertEquals(0, bench.size());
@@ -140,15 +140,15 @@ public class RemoveFromCentreAddToBenchTest {
     public void expectAll5TraineeInTheCentreGoToTheBenchAfter3MonthAndStreamAreMatch() {
 
         newTrainees = 5;
-        int[] monthlyCount = TraineeController.createTrainee(newTrainees, javaCount,csharpCount,dataCount,devopsCount,businessCount,waitingList);
+        TraineeModel.createTraineeAddToWaitingList(newTrainees, waitingList);
         int JavaTrainees = 0;
         int CSharpTrainees = 0;
         int DataTrainees = 0;
         int DevOpsTrainees = 0;
         int BusinessTrainees = 0;
 
-        centreController.createCentre(centreList, 5, 2,idCount,0,0);
-        centreController.addToCentre(waitingList, centreList, waitingList.size(),monthlyTrainees,traineesInTraining,month);
+        centreModel.createCentre(centreList, 5, 2,idCount,0,0);
+        centreModel.addToCentre(waitingList, centreList, waitingList.size(),monthlyTrainees);
         traineesInTraining.add(monthlyTrainees);
 
         JavaTrainees = centreList.get(0).getJavaCount();
@@ -159,7 +159,7 @@ public class RemoveFromCentreAddToBenchTest {
 
         month = 4;
         for(int i = 0; i < month; i++){
-            TraineeController.removeFromCentreAddToBench(traineesInTraining, bench, centreList);
+            TraineeModel.removeFromCentreAddToBench(traineesInTraining, bench, centreList);
         }
 
         int BenchJavaTrainees = 0;

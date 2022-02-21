@@ -1,5 +1,5 @@
 package com.sparta.simulation.test.centrecontrollertest;
-import com.sparta.simulation.CentreController;
+import com.sparta.simulation.model.CentreModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +14,7 @@ public class CentreTypeGenTest {
     boolean isTrainingHubGenerated;
     boolean isTechCentreGenerated;
     Random r = new Random();
-    CentreController centreController;
+    CentreModel centreModel;
 
     @BeforeEach
     void setUp() {
@@ -22,7 +22,7 @@ public class CentreTypeGenTest {
         isTrainingHubGenerated = false;
         isTechCentreGenerated = false;
         bootCampCount = 0;
-        centreController = new CentreController();
+        centreModel = new CentreModel();
     }
 
     @Test
@@ -33,7 +33,7 @@ public class CentreTypeGenTest {
 
         for (int i = 0; i < experimentLoopTime; i++) {
             int centreType = r.nextInt(1,4);
-            int outputCentreType = CentreController.centerTypeGen(bootCampCount, centreType);
+            int outputCentreType = CentreModel.centerTypeGen(bootCampCount, centreType);
             if (outputCentreType == 2) {
                 isBootCampGenerated = true;
                 bootCampCount++;
@@ -53,7 +53,7 @@ public class CentreTypeGenTest {
 
         for(int i = 0; i <experimentLoopTime; i++) {
             int centreType = r.nextInt(1,4);
-            int outputCentreType = CentreController.centerTypeGen(bootCampCount, centreType);
+            int outputCentreType = CentreModel.centerTypeGen(bootCampCount, centreType);
             if(outputCentreType == 2){
                 isBootCampGenerated = true;
                 bootCampCount++;
@@ -74,7 +74,7 @@ public class CentreTypeGenTest {
 
         for(int i = 0; i <experimentLoopTime; i++) {
             int centreType = r.nextInt(1,4);
-            int outputCentreType = CentreController.centerTypeGen(bootCampCount, centreType);
+            int outputCentreType = CentreModel.centerTypeGen(bootCampCount, centreType);
             if(outputCentreType == 2){
                 isBootCampGenerated = true;
                 bootCampCount++;
@@ -94,7 +94,7 @@ public class CentreTypeGenTest {
 
         for(int i = 0; i <experimentLoopTime; i++) {
             int centreType = r.nextInt(1,4);
-            int outputCentreType = CentreController.centerTypeGen(bootCampCount, centreType);
+            int outputCentreType = CentreModel.centerTypeGen(bootCampCount, centreType);
             if(outputCentreType == 2){
                 isBootCampGenerated = true;
             }
@@ -112,7 +112,7 @@ public class CentreTypeGenTest {
 
         for(int i = 0; i <experimentLoopTime; i++) {
             int centreType = r.nextInt(1,4);
-            int outputCentreType = CentreController.centerTypeGen(bootCampCount, centreType);
+            int outputCentreType = CentreModel.centerTypeGen(bootCampCount, centreType);
             if(outputCentreType == 1){
                 isTrainingHubGenerated = true;
             } else if(outputCentreType == 2){
@@ -138,7 +138,7 @@ public class CentreTypeGenTest {
 
         for(int i = 0; i <experimentLoopTime; i++) {
             int centreType = r.nextInt(1,4);
-            int outputCentreType = CentreController.centerTypeGen(bootCampCount, centreType);
+            int outputCentreType = CentreModel.centerTypeGen(bootCampCount, centreType);
             if(outputCentreType == 1){
                 isTrainingHubGenerated = true;
             } else if(outputCentreType == 2){

@@ -1,7 +1,7 @@
 package com.sparta.simulation.test.centrecontrollertest;
 
-import com.sparta.simulation.Centre;
-import com.sparta.simulation.CentreController;
+import com.sparta.simulation.model.Centre;
+import com.sparta.simulation.model.CentreModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -40,7 +40,7 @@ public class CheckAttendTest {
         experimentMonth = 3;
 
         for(int i =0;i<experimentMonth;i++) {
-            CentreController.checkAttend(centreArrayList, removedCentreArrayList);
+            CentreModel.checkAttend(centreArrayList, removedCentreArrayList);
         }
 
         //System.out.println(centreArrayList.size());
@@ -67,7 +67,7 @@ public class CheckAttendTest {
         experimentMonth = 3;
 
         for(int i =0;i<experimentMonth;i++) {
-            CentreController.checkAttend(centreArrayList, removedCentreArrayList);
+            CentreModel.checkAttend(centreArrayList, removedCentreArrayList);
         }
 
         Assertions.assertEquals(3,centreArrayList.size());                                      //No removal method yet, otherwise it should be 0
@@ -92,7 +92,7 @@ public class CheckAttendTest {
         experimentMonth = 3;
 
         for(int i =0;i<experimentMonth;i++) {
-            CentreController.checkAttend(centreArrayList, removedCentreArrayList);
+            CentreModel.checkAttend(centreArrayList, removedCentreArrayList);
         }
 
         Assertions.assertEquals(3,centreArrayList.size());                                      //No removal method yet, otherwise it should be 0
@@ -115,7 +115,7 @@ public class CheckAttendTest {
         experimentMonth = 3;
 
         for(int i =0;i<experimentMonth;i++) {
-            CentreController.checkAttend(centreArrayList, removedCentreArrayList);
+            CentreModel.checkAttend(centreArrayList, removedCentreArrayList);
         }
 
         Assertions.assertEquals(1,centreArrayList.size());
@@ -140,7 +140,7 @@ public class CheckAttendTest {
         experimentMonth = 2;
 
         for(int i =0;i<experimentMonth;i++) {
-            CentreController.checkAttend(centreArrayList, removedCentreArrayList);
+            CentreModel.checkAttend(centreArrayList, removedCentreArrayList);
         }
 
         Assertions.assertEquals(3,centreArrayList.size());

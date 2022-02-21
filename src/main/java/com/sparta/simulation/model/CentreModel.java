@@ -1,16 +1,14 @@
-package com.sparta.simulation;
+package com.sparta.simulation.model;
 
-import io.cucumber.java.sl.In;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.util.*;
 
-public class CentreController {
+public class CentreModel {
     public static Logger logger = LogManager.getLogger("Controller - Centre Controller");
 
-    // Increase capacities up to their max
+    // Increase amount centres can take for that month, only up to each centres max
     public void centreCapacity(ArrayList<Centre> centreList, int centreCapacity){
-        logger.info("get max capacity for eah type of centre");
         for (int j = 0; j < centreList.size(); j++) {
             centreList.get(j).setCentreCapacity(centreList.get(j).getCentreCapacity() + centreCapacity);
             if(centreList.get(j).getCentreType() == 1){
@@ -26,14 +24,14 @@ public class CentreController {
                     centreList.get(j).setCentreCapacity(200);
                 }
             } else {
-                System.out.println("error2");
+                logger.fatal("Centre type must be 1-3");
             }
         }
     }
 
-    // check how many boot-camps there are
+    // Check how many boot-camps there are
     public int bootcampCheck(ArrayList<Centre> centreList, int bootCampCount){
-        logger.info("check number of centre type 2(Boot-camp)");
+        bootCampCount = 0;
         for (int j = 0; j < centreList.size(); j++) {
             if(centreList.get(j).getCentreType() == 2){
                 bootCampCount++;
@@ -42,7 +40,7 @@ public class CentreController {
         return bootCampCount;
     }
 
-    // generate centre type randomly,
+    // Generate centre type randomly, chance for centres 1 and 3 chances when there are already two bootcamps
     public static int centerTypeGen(int bootCampCount, int centreType) {
         Random r = new Random();
          if (bootCampCount >= 2) {
@@ -56,12 +54,10 @@ public class CentreController {
         return centreType;
     }
 
-    // create centre
+    // Create centre
     public int createCentre(ArrayList<Centre> centreList, int centreCapacity, int centreType, int idCount, int numberOfTrainingHub, int techCentreStream){
         Random r = new Random();
-        logger.info("get type of centre to be created");
         if(centreType == 1) {
-//            int numberOfHub = r.nextInt(1, 4);
             for (int j = 0; j < numberOfTrainingHub; j++) {
                 Centre centre = new Centre(idCount, r.nextInt(0,51), centreType, 0);
                 centreList.add(centre);
@@ -79,7 +75,7 @@ public class CentreController {
         return idCount;
     }
 
-    // check for low attendance
+    // Check centres for low attendance (<25), after 3 consecutive months of low attendance, the centre shuts
     public static void checkAttend(ArrayList<Centre> centreList, ArrayList<Integer> tempList){
         for (int j = 0; j < centreList.size(); j++) {
             if(centreList.get(j).getTotal() < 25){
@@ -87,46 +83,37 @@ public class CentreController {
                 if(centreList.get(j).getLowAttendanceMonths() >= 3){
                     tempList.add(centreList.indexOf(centreList.get(j)));
                 }
+            } else {
+                centreList.get(j).setLowAttendanceMonths(0);
             }
         }
     }
 
-    // takes trainee from waiting list and adds to centre
-
-    public ArrayList<Centre> addToCentre(ArrayList<Integer> waitingList, ArrayList<Centre> centreList, int waitingListSize, int[] monthlyTrainees, ArrayList<int[]> traineesInTraining, int i){
+    // Takes trainee from waiting list and adds to centre
+    public ArrayList<Centre> addToCentre(ArrayList<Integer> waitingList, ArrayList<Centre> centreList, int waitingListSize, int[] monthlyTrainees){
         if (waitingList.size() > 0){
-            // For each trainee in the waiting list
             for (int j = 0; j < waitingListSize; j++) {
                 for(int l = 0; l < centreList.size(); l++){
-                    // Check capacity free in each traineesInCentres
-//                    for (int k = 0; k < centreList.size(); k++) {
+                    for (int k = 0; k < centreList.size(); k++) { // two loops to ensure waiting list properly gets processed
                         int freeCapacity = centreList.get(l).getCentreCapacity() - centreList.get(l).getTotal();
                         // If there is free capacity in the centre, add the trainee to the centre
                         if(freeCapacity > 0  && waitingList.size() > 0 && centreList.get(l).getCentreType() != 3 && freeCapacity <= centreList.get(l).getCentreCapacity()){
-                            // move to method
-
-                            addCentreOneTwo(centreList,waitingList, l, monthlyTrainees, traineesInTraining, i);
-
-//                            break;
+                            addCentreOneTwo(centreList,waitingList, l, monthlyTrainees);
                         } else if (freeCapacity > 0 && waitingList.size() > 0 && centreList.get(l).getCentreType() == 3){
-                            CentreController centre3Controller = new CentreController();
-                            centre3Controller.addToCentre3(waitingList, centreList, l, monthlyTrainees, traineesInTraining, i);
-//                            break;
-
+                            CentreModel centre3Controller = new CentreModel();
+                            centre3Controller.addToCentre3(waitingList, centreList, l, monthlyTrainees);
                         }
-//                    }
+                    }
                 }
             }
         }
-
         return centreList;
     }
 
 
-// add to centre's 1 & 2
-    public void addCentreOneTwo(ArrayList<Centre> centreList, ArrayList<Integer> waitingList, int l, int[] monthlyTrainees, ArrayList<int[]> traineesInTraining, int i){
+// Add to centre's 1 & 2
+    private void addCentreOneTwo(ArrayList<Centre> centreList, ArrayList<Integer> waitingList, int l, int[] monthlyTrainees){
         int traineeType = waitingList.get(0);
-        logger.info("add counts to centre list - centre's 1 and 2");
         if(traineeType == 1){
             centreList.get(l).setJavaCount(centreList.get(l).getJavaCount() + 1);
         } else if (traineeType == 2){
@@ -138,55 +125,49 @@ public class CentreController {
         } else if (traineeType == 5){
             centreList.get(l).setBusinessCount(centreList.get(l).getBusinessCount() + 1);
         } else{
-            System.out.println("error3");
+            logger.fatal("The waiting list should only contain values 1-5");
         }
         monthlyTrainees[waitingList.get(0) - 1]++;
-//        monthlyTrainees[5] = i;
-        //monthlyTrainees.();
-//        Arrays.fill(monthlyTrainees, 0);
         waitingList.remove(0);
     }
 
-// add to centre 3
-    public void addToCentre3(ArrayList<Integer> waitingList, ArrayList<Centre> centreList, int l, int[] monthlyTrainees, ArrayList<int[]> traineesInTraining, int i){
-        logger.info("add counts to centre type 3");
+// Add to centre 3, needs separate method as can only take one training stream
+    private void addToCentre3(ArrayList<Integer> waitingList, ArrayList<Centre> centreList, int l, int[] monthlyTrainees){
         int traineeType = waitingList.get(0);
+        // Always removes index 0 of the waiting list to ensure first in first out
         if(traineeType == 1 && centreList.get(l).getStream() == 1){
             centreList.get(l).setJavaCount(centreList.get(l).getJavaCount() + 1);
             monthlyTrainees[waitingList.get(0) - 1]++;
-//            monthlyTrainees[5] = i;
             waitingList.remove(0);
-
         } else if (traineeType == 2 && centreList.get(l).getStream() == 2){
             centreList.get(l).setCsharpCount(centreList.get(l).getCsharpCount() + 1);
             monthlyTrainees[waitingList.get(0) - 1]++;
-//            monthlyTrainees[5] = i;
             waitingList.remove(0);
         } else if (traineeType == 3 && centreList.get(l).getStream() == 3){
             centreList.get(l).setDataCount(centreList.get(l).getDataCount() + 1);
             monthlyTrainees[waitingList.get(0) - 1]++;
-//            monthlyTrainees[5] = i;
             waitingList.remove(0);
         } else if (traineeType == 4 && centreList.get(l).getStream() == 4){
             centreList.get(l).setDevopsCount(centreList.get(l).getDevopsCount() + 1);
             monthlyTrainees[waitingList.get(0) - 1]++;
-//            monthlyTrainees[5] = i;
-
             waitingList.remove(0);
         } else if (traineeType == 5 && centreList.get(l).getStream() == 5){
             centreList.get(l).setBusinessCount(centreList.get(l).getBusinessCount() + 1);
             monthlyTrainees[waitingList.get(0) - 1]++;
-//            monthlyTrainees[5] = i;
             waitingList.remove(0);
         } else {
+            // I think this is cool if you're reading this
+            // It rotates next value that can be placed into a centre to index 0 if index 0 can't be placed, keeps waiting list order the same
             Collections.rotate(waitingList.subList(0 ,waitingList.indexOf(centreList.get(l).getStream()) + 1), 1);
         }
     }
 
+    // Close centre after they have 3 months of low attendance
     public void closeCentre(List<Integer> listWithoutDuplicates, ArrayList<Centre> centreList, ArrayList<Centre> closedCentres, ArrayList<Integer> waitingList){
         for (int j = 0; j < listWithoutDuplicates.size(); j++) {
             int k = listWithoutDuplicates.get(j);
             closedCentres.add(centreList.get(k));
+            logger.info("Closing centre " + "ID: " + centreList.get(k).getCentreID());
             for (int l = 0; l < centreList.get(k).getJavaCount(); l++) {
                 waitingList.add(1);
                 Collections.rotate(waitingList, 1);
@@ -208,33 +189,6 @@ public class CentreController {
                 Collections.rotate(waitingList, 1);
             }
             centreList.remove(k);
-            logger.info("close low use centre's");
         }
     }
-
-    public void removeFromCentre(ArrayList<Centre> centreList, ArrayList<Integer> bench){
-//        for (int j = 0; j < bench.size(); j++) {
-//            for (int k = 0; k < centreList.size(); k++) {
-//                if (centreList.get(k).getJavaCount() > 0 && bench.get(j) == 1){
-//                    centreList.get(k).setJavaCount(centreList.get(k).getJavaCount() - 1);
-//                    break;
-//                } else if (centreList.get(k).getCsharpCount() > 0 && bench.get(j) == 2){
-//                    centreList.get(k).setCsharpCount(centreList.get(k).getCsharpCount() - 1);
-//                    break;
-//                } else if (centreList.get(k).getDataCount() > 0 && bench.get(j) == 3){
-//                    centreList.get(k).setDataCount(centreList.get(k).getDataCount() - 1);
-//                    break;
-//                } else if (centreList.get(k).getDevopsCount() > 0 && bench.get(j) == 4){
-//                    centreList.get(k).setDevopsCount(centreList.get(k).getDevopsCount() - 1);
-//                    break;
-//                } else if (centreList.get(k).getBusinessCount() > 0 && bench.get(j) == 5){
-//                    centreList.get(k).setBusinessCount(centreList.get(k).getBusinessCount() - 1);
-//                    break;
-//                }
-//            }
-//        }
-
-    }
-
-
 }

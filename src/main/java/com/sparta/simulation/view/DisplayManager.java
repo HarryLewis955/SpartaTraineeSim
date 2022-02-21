@@ -1,48 +1,56 @@
 package com.sparta.simulation.view;
+import com.sparta.simulation.model.Centre;
+import com.sparta.simulation.model.Client;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import com.sparta.simulation.Centre;
-import com.sparta.simulation.Client;
-
-import javax.crypto.spec.PSource;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class DisplayManager {
+    public static Logger logger = LogManager.getLogger("Display Manager");
     public int getNumberOfMonths(){
-        System.out.println("How many months would you like to run the simulation");
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
+        int duration = -1;
+        while (duration < 0 || duration > 100000){
+            try{
+                System.out.println("How many months would you like to run the simulation for: ");
+                Scanner scanner = new Scanner(System.in);
+                duration = scanner.nextInt();
+            } catch (InputMismatchException i){
+                logger.warn("User entered an incorrect type!");
+                duration = -1;
+            }
+        }
+        return duration;
     }
+
     public int choiceOfDisplay(){
-        System.out.println("Would you like the display to be shown continuously(1) or all at once(2)");
-        Scanner scanner = new Scanner (System.in);
-        int choice = scanner.nextInt();
-        if (choice > 2)
-            choice = 2;
-        else if(choice <1)
-            choice = 1;
+        int choice = 0;
+        while (choice != 1 && choice != 2){
+            try {
+                System.out.println("Would you like the display to be shown for each month (1) or for the final month? (2)");
+                Scanner scanner = new Scanner (System.in);
+                choice = scanner.nextInt();
+            } catch (InputMismatchException i){
+                logger.warn("User entered an incorrect type!");
+                choice = 0;
+            }
+        }
         return choice;
     }
+
     public void displayOpenCentres(ArrayList<Centre> openCentres){
         int trainingHub= 0, bootcamp=0, techCentre=0, fullCentre=0;
         for(Centre centre : openCentres){
             if(centre.getCentreType()==1) {
                 trainingHub += 1;
-                if(centre.getCentreCapacity() == 100)
-                    fullCentre += 1;
-
             }
             if(centre.getCentreType()==2){
                 bootcamp +=1;
-                if(centre.getCentreCapacity() == 500)
-                    fullCentre += 1;
-
             }
             if(centre.getCentreType()==3){
                 techCentre +=1;
-                if(centre.getCentreCapacity() == 200)
-                    fullCentre += 1;
-
             }
         }
         System.out.println("Total number of open centres: "+ openCentres.size());
@@ -58,33 +66,34 @@ public class DisplayManager {
       for (Centre centre : openCentres) {
           if (centre.getCentreType() == 1) {
 
-              if (centre.getCentreCapacity() == 100) {
+              if (centre.getTotal() == 100) {
                   fullCentre += 1;
                   trainingHub += 1;
               }
           }
           if (centre.getCentreType() == 2) {
 
-              if (centre.getCentreCapacity() == 500) {
+              if (centre.getTotal() == 500) {
                   fullCentre += 1;
                   bootcamp += 1;
               }
           }
           if (centre.getCentreType() == 3) {
-
-              if (centre.getCentreCapacity() == 200) {
+              if (centre.getTotal()== 200) {
                   techCentre += 1;
                   fullCentre += 1;
               }
           }
       }
-
       if (fullCentre != 0) {
           System.out.println("Total number of full centres: " + fullCentre);
           System.out.println("Breakdown for each type below");
           System.out.println("Training Hubs: " + trainingHub);
           System.out.println("Bootcamps: " + bootcamp);
           System.out.println("Tech Centres: " + techCentre);
+          System.out.println("===========================================");
+      } else {
+          System.out.println("There are no full centres");
           System.out.println("===========================================");
       }
   }
