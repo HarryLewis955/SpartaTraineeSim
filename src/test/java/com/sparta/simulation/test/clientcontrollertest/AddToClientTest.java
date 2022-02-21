@@ -1,9 +1,7 @@
 package com.sparta.simulation.test.clientcontrollertest;
 
-import com.sparta.simulation.CentreController;
-import com.sparta.simulation.Client;
-import com.sparta.simulation.ClientController;
-import com.sparta.simulation.TraineeController;
+import com.sparta.simulation.model.Client;
+import com.sparta.simulation.model.ClientModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +17,7 @@ public class AddToClientTest {
     ArrayList<Integer> bench;
     int clientIdCount;
     Random r;
-    ClientController clientController;
+    ClientModel clientModel;
 
     @BeforeEach
     void setUp() {
@@ -27,7 +25,7 @@ public class AddToClientTest {
         bench = new ArrayList<>();
         clientIdCount = 0;
         r = new Random();
-        clientController = new ClientController();
+        clientModel = new ClientModel();
     }
 
     @Test
@@ -49,7 +47,7 @@ public class AddToClientTest {
         clientIdCount++;
         clientList.add(client);
 
-        clientController.addToClient(clientList, bench);
+        clientModel.addToClient(clientList, bench);
 
         Assertions.assertEquals(4, bench.size());
         Assertions.assertEquals(3,clientList.get(0).getCurrentTrainees());
@@ -84,7 +82,7 @@ public class AddToClientTest {
         clientIdCount++;
         clientList.add(client);
 
-        clientController.addToClient(clientList, bench);
+        clientModel.addToClient(clientList, bench);
 
         Assertions.assertEquals(2, bench.size());
         Assertions.assertEquals(5,clientList.get(0).getCurrentTrainees());
@@ -112,12 +110,12 @@ public class AddToClientTest {
         clientIdCount++;
         clientList.add(client);
 
-        clientController.addToClient(clientList, bench);
+        clientModel.addToClient(clientList, bench);
 
         Assertions.assertEquals(2, bench.size());
         Assertions.assertEquals(5,clientList.get(0).getCurrentTrainees());
 
-        clientController.addToClient(clientList, bench);
+        clientModel.addToClient(clientList, bench);
 
         Assertions.assertEquals(0, bench.size());
         Assertions.assertEquals(7,clientList.get(0).getCurrentTrainees());
@@ -143,7 +141,7 @@ public class AddToClientTest {
         clientIdCount++;
         clientList.add(client);
 
-        clientController.addToClient(clientList, bench);
+        clientModel.addToClient(clientList, bench);
 
         Assertions.assertEquals(2,clientList.get(0).getCurrentTrainees());
 
@@ -168,19 +166,19 @@ public class AddToClientTest {
         clientIdCount++;
         clientList.add(client);
 
-        clientController.addToClient(clientList, bench);
+        clientModel.addToClient(clientList, bench);
         Assertions.assertEquals(5,clientList.get(0).getCurrentTrainees());
 
-        clientController.addToClient(clientList, bench);
+        clientModel.addToClient(clientList, bench);
         Assertions.assertEquals(10,clientList.get(0).getCurrentTrainees());
 
-        clientController.addToClient(clientList, bench);
+        clientModel.addToClient(clientList, bench);
         Assertions.assertEquals(15,clientList.get(0).getCurrentTrainees());
 
-        clientController.addToClient(clientList, bench);
+        clientModel.addToClient(clientList, bench);
         Assertions.assertEquals(20,clientList.get(0).getCurrentTrainees());
 
-        clientController.addToClient(clientList, bench);
+        clientModel.addToClient(clientList, bench);
         Assertions.assertEquals(20,clientList.get(0).getCurrentTrainees());
 
         Assertions.assertEquals(10,bench.size());

@@ -1,6 +1,6 @@
 package com.sparta.simulation.test.traineecontrollertest;
 
-import com.sparta.simulation.TraineeController;
+import com.sparta.simulation.model.TraineeModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -34,14 +34,9 @@ public class CreateTraineeTest {
     @ValueSource(ints = {0,25,32,47,50,51,60,72,80,99,100})
     @DisplayName("Given new trainee input expect waiting list size should equal to input amount")
     public void givenNewTraineeInputExpectWaitingListSizeShouldEqualToInputAmount(int newTrainees){
-
-        TraineeController.createTrainee(newTrainees, javaCount,csharpCount,dataCount,devopsCount,businessCount,waitingList);
+        TraineeModel.createTraineeAddToWaitingList(newTrainees,waitingList);
         Assertions.assertEquals(newTrainees,waitingList.size());
-        System.out.println(javaCount);
-        System.out.println(csharpCount);
-        System.out.println(dataCount);
-        System.out.println(devopsCount);
-        System.out.println(businessCount);
+
     }
     
 }

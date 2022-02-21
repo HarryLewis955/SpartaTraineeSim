@@ -25,13 +25,11 @@ Feature: Waiting List
   Scenario Outline: Test to correct amount of trainees in waiting list
     When user enters 1 to start simulation
     When the program is generating <traineesToGenerate> trainees in this month
-    Then 1 centre type 2 should be opened in month 0
-    When 0 centre type 1 should be opened in month 0
-    Then 0 centre type 3 should be opened in month 0
+    When 1 centre type 2 should be opened in month 0
     When centres take <newTrainees> new trainees
-    Then <numberOfTraineesInWaitingList> trainees should be in waiting list
+    Then <numberOfTraineesInWaitingList3> trainees should be in waiting list
     Examples:
-      | traineesToGenerate | newTrainees | numberOfTraineesInWaitingList |
+      | traineesToGenerate | newTrainees | numberOfTraineesInWaitingList3 |
       | 80                 | 40          | 40                            |
       | 70                 | 30          | 40                            |
 

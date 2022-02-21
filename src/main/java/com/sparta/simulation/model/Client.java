@@ -1,4 +1,4 @@
-package com.sparta.simulation;
+package com.sparta.simulation.model;
 
 public class Client {
     private Integer clientID;

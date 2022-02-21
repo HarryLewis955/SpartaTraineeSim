@@ -1,4 +1,4 @@
-package com.sparta.simulation;
+package com.sparta.simulation.model;
 
 public class Centre {
 
@@ -12,8 +12,6 @@ public class Centre {
     private Integer businessCount = 0;
     private Integer stream;
     private Integer lowAttendanceMonths = 0;
-
-
 
     public Centre(Integer centreID, Integer centreCapacity, Integer centreType, Integer stream){
         this.centreID = centreID;
@@ -112,6 +110,5 @@ public class Centre {
     public String toString() {
         return "Centre ID: " + centreID + " | Capacity: " + centreCapacity + " | Centre Type " + centreType;
     }
-
 
 }

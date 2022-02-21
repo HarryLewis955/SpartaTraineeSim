@@ -1,6 +1,6 @@
 package com.sparta.simulation.stepdefs;
 
-import com.sparta.simulation.*;
+import com.sparta.simulation.model.*;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
@@ -12,8 +12,8 @@ import java.util.*;
 
 public class StepDefinitions {
 
-    CentreController centreController;
-    ClientController clientController;
+    CentreModel centreModel;
+    ClientModel clientModel;
     Centre centre;
     ArrayList<Centre> centreList;
     int centreCapacity;
@@ -38,19 +38,20 @@ public class StepDefinitions {
     int bootCampCount = 0;
     int clientIdCount = 0;
 
+
     int currentMonth = 0;
 
     boolean isCentreOpened = false;
 
     @Before
     public void setUp() {
-        centreController = new CentreController();
+        centreModel = new CentreModel();
         centreList = new ArrayList<>();
     }
 
     @After
     public void close() {
-        centreController = null;
+        centreModel = null;
         centre = null;
         centreList = null;
         waitingList = null;
@@ -67,7 +68,7 @@ public class StepDefinitions {
     @When("the program is generating {int} trainees in this month")
     public void theProgramIsGeneratingTraineesInThisMonth(int numberOfTrainees) {
 
-        monthlyTrainees = TraineeController.createTrainee(numberOfTrainees, javaCount, csharpCount, dataCount, devopsCount, businessCount, waitingList);
+        TraineeModel.createTraineeAddToWaitingList(numberOfTrainees, waitingList);
         int i = 0;
         for (int java : waitingList) {
             if (java == 1) {
@@ -84,7 +85,7 @@ public class StepDefinitions {
     @Then("maximum {int} training hubs should be opened")
     public void maximumTrainingHubsShouldBeOpened(int maxTrainingHubsOpened) {
         if (currentMonth % 2 == 0) {
-            int numberOfTrainingHubsOpened = centreController.createCentre(centreList, centreCapacity, centre.getCentreType(), 0, maxTrainingHubsOpened, 0);
+            int numberOfTrainingHubsOpened = centreModel.createCentre(centreList, centreCapacity, centre.getCentreType(), 0, maxTrainingHubsOpened, 0);
             Assertions.assertTrue(maxTrainingHubsOpened >= numberOfTrainingHubsOpened);
         }
     }
@@ -92,7 +93,7 @@ public class StepDefinitions {
     @Then("minimum {int} training hub should be opened")
     public void minimumTrainingHubShouldBeOpened(int minTrainingHubsOpened) {
         if (currentMonth % 2 == 0) {
-            int numberOfTrainingHubsOpened = centreController.createCentre(centreList, centreCapacity, centre.getCentreType(), 0, minTrainingHubsOpened, 0);
+            int numberOfTrainingHubsOpened = centreModel.createCentre(centreList, centreCapacity, centre.getCentreType(), 0, minTrainingHubsOpened, 0);
             Assertions.assertTrue(minTrainingHubsOpened <= numberOfTrainingHubsOpened);
         }
     }
@@ -105,6 +106,7 @@ public class StepDefinitions {
     @Then("{int} trainees should be in waiting list")
     public void traineesShouldBeInWaitingList(int traineesInWaitingList) {
         Assertions.assertEquals(traineesInWaitingList, waitingList.size());
+//        Assertions.assertEquals(traineesInWaitingList, test);
     }
 
     @Then("only one type trainee should be in tech centre")
@@ -154,7 +156,7 @@ public class StepDefinitions {
 
         int numberOfCentersOpened = 0;
         if (currentMonth % 2 == 0) {
-            numberOfCentersOpened = centreController.createCentre(centreList,
+            numberOfCentersOpened = centreModel.createCentre(centreList,
                     20, centreNo, 0, numberOfCentre, 0);
             isCentreOpened = true;
             // get number of open centres number after adding new centres
@@ -181,22 +183,24 @@ public class StepDefinitions {
     @Then("new bootcamp should not be opened")
     public void newBootcampShouldNotBeOpened() {
         int sizeOld = centreList.size();
-        CentreController.centerTypeGen(centreController.bootcampCheck(centreList, bootCampCount), 2);
+        CentreModel.centerTypeGen(centreModel.bootcampCheck(centreList, bootCampCount), 2);
         int sizeNew = centreList.size();
         Assertions.assertTrue(sizeNew == sizeOld);
     }
 
     @When("centres take {int} new trainees")
     public void centresTakeNewTrainees(int numberOfTrainees) {
-        centreController.centreCapacity(centreList, numberOfTrainees);
+        centreModel.centreCapacity(centreList, numberOfTrainees);
         System.out.println("waitingList.size() = " + waitingList.size());
-        centreController.addToCentre(waitingList, centreList, numberOfTrainees, monthlyTrainees, traineesInTraining, 0);
-        System.out.println("waitingList.size() after adding to centre = " + waitingList.size());
+        centreModel.addToCentre(waitingList, centreList, numberOfTrainees, monthlyTrainees);
+         int test = waitingList.size();
+//        System.out.println("waitingList.size() after adding to centre = " + waitingList.size());
+        System.out.println("waitingList.size() after adding to centre = " + test);
     }
 
     @Then("{int} months passed")
     public void monthsPassed(int months) {
-        CentreController.checkAttend(centreList, centresToClose);
+        CentreModel.checkAttend(centreList, centresToClose);
     }
 
     @Then("centres should not be closed")
@@ -208,7 +212,7 @@ public class StepDefinitions {
     public void checkCentreAttendanceAndTryToCloseIt() {
         temporaryList = centresToClose.stream().distinct().toList();
         new LinkedList<>(temporaryList).descendingIterator().forEachRemaining(listWithoutDuplicates::add);
-        centreController.closeCentre(listWithoutDuplicates, centreList, closedCentres, waitingList);
+        centreModel.closeCentre(listWithoutDuplicates, centreList, closedCentres, waitingList);
     }
 
     @Then("centres should be closed if attendance lower than twenty five")

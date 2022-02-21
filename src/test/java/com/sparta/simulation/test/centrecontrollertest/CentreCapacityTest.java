@@ -1,7 +1,7 @@
 package com.sparta.simulation.test.centrecontrollertest;
 
-import com.sparta.simulation.CentreController;
-import com.sparta.simulation.Centre;
+import com.sparta.simulation.model.CentreModel;
+import com.sparta.simulation.model.Centre;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +17,7 @@ public class CentreCapacityTest {
     final int centreTwoFull = 500;
     final int centreThreeFull = 200;
     ArrayList<Centre> centreArrayList;
-    CentreController centerController;
+    CentreModel centerController;
 
     @BeforeEach
     void setUp() {
@@ -28,7 +28,7 @@ public class CentreCapacityTest {
         centreArrayList.add(c1);
         centreArrayList.add(c2);
         centreArrayList.add(c3);
-        centerController = new CentreController();
+        centerController = new CentreModel();
     }
 
 

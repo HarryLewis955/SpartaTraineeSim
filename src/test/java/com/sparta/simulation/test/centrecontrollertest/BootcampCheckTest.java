@@ -1,7 +1,7 @@
 package com.sparta.simulation.test.centrecontrollertest;
 
-import com.sparta.simulation.CentreController;
-import com.sparta.simulation.Centre;
+import com.sparta.simulation.model.CentreModel;
+import com.sparta.simulation.model.Centre;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,12 +13,12 @@ public class BootcampCheckTest {
 
     ArrayList<Centre> centreArrayList;
     final int bootCampCount = 0;
-    CentreController centerController;
+    CentreModel centerController;
 
     @BeforeEach
     void setUp() {
         centreArrayList = new ArrayList<>();
-        centerController = new CentreController();
+        centerController = new CentreModel();
     }
 
     @Test
